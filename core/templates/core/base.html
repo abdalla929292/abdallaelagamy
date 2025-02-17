@@ -1,0 +1,254 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{% if LANGUAGE_CODE == 'ar' %}ar{% else %}en{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if company_settings.name %}{{ company_settings.name }}{% else %}Ticket System{% endif %}</title>
+    <style>
+        /* Your existing styles remain unchanged */
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            transition: 0.3s;
+            padding: 20px 0;
+            z-index: 1000;
+        }
+        [dir="rtl"] .sidebar {
+            left: auto;
+            right: 0;
+        }
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 0 15px;
+        }
+        .sidebar-logo img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar-menu a {
+            display: block;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+        }
+        .sidebar-menu a:hover {
+            background-color: #34495e;
+            color: #fff;
+        }
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            transition: 0.3s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        [dir="rtl"] .main-content {
+            margin-left: 0;
+            margin-right: 250px;
+        }
+        .main-content main {
+            flex: 1;
+        }
+        footer {
+            margin-top: auto;
+        }
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1001;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        [dir="rtl"] .mobile-menu-toggle {
+            left: auto;
+            right: 10px;
+        }
+        .language-menu {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+            padding: 15px 20px;
+        }
+        .lang-select {
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        .lang-select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+        .lang-select option {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-250px);
+            }
+            [dir="rtl"] .sidebar {
+                transform: translateX(250px);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}" data-current-language="{{ LANGUAGE_CODE }}">
+    <button class="mobile-menu-toggle">
+        <span class="navbar-toggler-icon">☰</span>
+    </button>
+
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            {% if company_settings.logo %}
+                <img src="{{ company_settings.logo.url }}" alt="Company Logo">
+            {% endif %}
+            <h4 class="text-white">{{ company_settings.name|default:"Ticket System" }}</h4>
+        </div>
+        <div class="sidebar-menu">
+            {% if user.is_authenticated %}
+                <a href="{% url 'ticket_list' %}">{% trans "Tickets" %}</a>
+                <a href="{% url 'it_request_list' %}">{% trans "IT Request" %}</a>
+                <a href="{% url 'it_warehouse_list' %}">{% trans "IT Warehouse" %}</a>
+                <a href="{% url 'employee_details_list' %}">{% trans "Employee Details" %}</a>
+                <a href="{% url 'administrative_request_list' %}">{% trans "Administrative Requests" %}</a>
+                <a href="{% url 'hr_warehouse_list' %}">{% trans "Cars and Heavy Equip" %}</a>
+                <a href="{% url 'financial_warehouse_list' %}">{% trans "Financial Warehouse" %}</a>
+                <a href="{% url 'user_list' %}">{% trans "Users" %}</a>
+                <a href="{% url 'role_list' %}">{% trans "Roles" %}</a>
+                <a href="{% url 'department_list' %}">{% trans "Departments" %}</a>
+                <a href="{% url 'request_type_list' %}">{% trans "Request Types" %}</a>
+                <a href="{% url 'position_list' %}">{% trans "Positions" %}</a>
+                <a href="{% url 'company_settings' %}">{% trans "Company Settings" %}</a>
+                <a href="{% url 'change_password' %}">{% trans "Change Password" %}</a>
+                <a href="{% url 'start_work_permit_list' %}">{% trans "Start or receive Work" %}</a>
+                <a href="{% url 'company_clearance_list' %}">{% trans "Company Clearance" %}</a>
+
+                <div class="language-menu">
+                    <select name="language" class="lang-select" id="language-select" onchange="switchLanguage(this)">
+                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                        <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
+                    </select>
+                </div>
+                <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="main-content">
+        <main class="container-fluid mt-4">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
+        <footer class="bg-dark text-white text-center py-2">
+            <p class="mb-0">{% trans "Developed by Abdalla Elagamy, IT Manager" %}</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.switchLanguage = function(select) {
+                var newLang = select.value;
+                var currentPath = window.location.pathname;
+                var newPath = '';
+                if (currentPath.indexOf('/en/') === 0) {
+                    newPath = '/' + newLang + currentPath.substring(3);
+                } else if (currentPath.indexOf('/ar/') === 0) {
+                    newPath = '/' + newLang + currentPath.substring(3);
+                } else if (currentPath === '/' || currentPath === '') {
+                    newPath = '/' + newLang + '/';
+                } else {
+                    newPath = '/' + newLang + currentPath;
+                }
+                console.log('Redirecting to:', newPath);
+                window.location.href = newPath;
+            };
+
+            var mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            var sidebar = document.querySelector('.sidebar');
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+
+            var messages = document.querySelectorAll('.alert');
+            messages.forEach(function(message) {
+                setTimeout(function() {
+                    $(message).alert('close');
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

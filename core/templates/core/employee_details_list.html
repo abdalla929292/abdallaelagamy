@@ -1,0 +1,180 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block content %}
+<div class="table-container">
+    <h2 class="mb-3">{% trans "Employee Details" %}</h2>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons mb-4 d-flex justify-content-between">
+        <!-- Left-side: Add New Employee button -->
+        <div class="left-side">
+            <a href="{% url 'employee_details_create' %}" class="btn-custom">
+                {% trans "Add New Employee" %}
+            </a>
+        </div>
+        <!-- Right-side: Export Button -->
+        <div class="right-side">
+            {% if user.is_staff or user.is_superuser %}
+                <a href="{% url 'export_employee_details_to_pdf' %}" class="btn btn-secondary small-button-text">
+                    {% trans "Export as PDF" %}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" class="search-form form-inline mb-3">
+        <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Search' %}" class="form-control mr-2 small-button-text">
+        <input type="date" name="date_from" value="{{ date_from }}" class="form-control mr-2 small-button-text">
+        <input type="date" name="date_to" value="{{ date_to }}" class="form-control mr-2 small-button-text">
+        <input type="text" name="name" value="{{ name }}" placeholder="{% trans 'Name' %}" class="form-control mr-2 small-button-text">
+        <button type="submit" class="btn btn-outline-success small-button-text">{% trans "Search" %}</button>
+    </form>
+
+    <!-- Table Content -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped small-text">
+            <thead>
+                <tr>
+                    <th>{% trans "Employee No." %}</th>
+                    <th>{% trans "Iqama ID" %}</th>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Profession" %}</th>  <!-- ✅ Added Profession Column -->
+                    <th>{% trans "Date of Birth" %}</th>
+                    <th>{% trans "Nationality" %}</th>
+                    <th>{% trans "Passport No." %}</th>
+                    <th>{% trans "Name on Passport" %}</th>
+                    <th>{% trans "Phone Number in KSA" %}</th>
+                    <th>{% trans "Relative Name" %}</th>
+                    <th>{% trans "Relative Phone Number" %}</th>
+                    <th>{% trans "ID Renew Date" %}</th>
+                    <th>{% trans "Duration" %}</th>
+                    <th>{% trans "ID End Date" %}</th>
+                    <th>{% trans "Attachments" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.employee_no }}</td>
+                    <td>{{ item.iqama_id_no }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.profession }}</td>  <!-- ✅ Added Profession Field -->
+                    <td>{{ item.date_of_birth }}</td>
+                    <td>{{ item.nationality }}</td>
+                    <td>{{ item.passport_no }}</td>
+                    <td>{{ item.name_on_passport }}</td>
+                    <td>{{ item.phone_number_ksa }}</td>
+                    <td>{{ item.relative_name }}</td>
+                    <td>{{ item.relative_phone_number }}</td>
+                    <td>{{ item.id_renew_date }}</td>
+                    <td>{{ item.duration }}</td>
+                    <td>{{ item.id_end_date }}</td>
+                    <td class="attachment-cell">
+                        {% if item.id_attachment %}
+                            <div class="btn-group btn-group-sm mb-1">
+                                <a href="{{ item.id_attachment.url }}" class="btn btn-info small-button-text" target="_blank">
+                                    <i class="fas fa-eye"></i> View ID
+                                </a>
+                                <a href="{{ item.id_attachment.url }}" class="btn btn-success small-button-text" download>
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if item.passport_attachment %}
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ item.passport_attachment.url }}" class="btn btn-info small-button-text" target="_blank">
+                                    <i class="fas fa-eye"></i> View Passport
+                                </a>
+                                <a href="{{ item.passport_attachment.url }}" class="btn btn-success small-button-text" download>
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td class="action-cell">
+                        <div class="btn-group btn-group-sm">
+                            <a href="{% url 'employee_details_update' item.pk %}" class="btn btn-warning small-button-text">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="{% url 'employee_details_delete' item.pk %}" class="btn btn-danger small-button-text">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="16" class="text-center">{% trans "No items found." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+/* Left-side container for the Add New Employee button */
+.left-side {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #007bff;
+}
+
+/* Custom button style for "Add New Employee" */
+.btn-custom {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
+    word-wrap: break-word;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Base table text */
+.small-text {
+    font-size: 8px; 
+}
+
+/* Buttons in the search form/action bar */
+.small-button-text {
+    font-size: 8px !important;
+    padding: 0.25rem 0.5rem !important;
+}
+
+/* Within button groups */
+.btn-group .btn {
+    font-size: 8px !important;
+    padding: 0.15rem 0.3rem !important;
+}
+
+/* Icons */
+.fas {
+    font-size: 8px;
+}
+
+/* Attachment cell spacing */
+.attachment-cell .btn-group {
+    margin-bottom: 2px;
+}
+
+/* Optional min-width for action cell */
+.action-cell {
+    min-width: 120px;
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block title %}{{ form.instance.pk|yesno:"Edit Sub-request,Create Sub-request" }}{% endblock %}
+{% block content %}
+<div class="table-container">
+    <h2>{{ form.instance.pk|yesno:"Edit Sub-request,Create Sub-request" }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th><label for="id_main_request_type">{% trans "Main Request Type" %}:</label></th>
+                    <td>{{ form.main_request_type }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_name">{% trans "Sub Request Name" %}:</label></th>
+                    <td>{{ form.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        $('#id_main_request_type').change(function() {
+            var requestTypeID = $(this).val();
+            if (requestTypeID) {
+                $.ajax({
+                    url: '/get_sub_request_types/' + requestTypeID + '/',
+                    success: function(data) {
+                        var subRequestTypeField = $('#id_sub_request_type');
+                        subRequestTypeField.empty();
+                        subRequestTypeField.append('<option value="">Select Sub Request Type</option>');
+                        $.each(data, function(key, value) {
+                            subRequestTypeField.append('<option value="' + key + '">' + value + '</option>');
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}{% trans "Delete Contractor" %}{% endblock %}
+{% block content %}
+<div class="table-container">
+    <h2>{% trans "Delete Contractor" %}</h2>
+    <p>{% trans "Are you sure you want to delete the contractor" %} "{{ contractor.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">{% trans "Confirm" %}</button>
+        <a href="{% url 'contractor_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+{% endblock %}

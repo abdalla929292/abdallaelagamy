@@ -1,0 +1,15 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}{% trans "Delete Administrative Request" %}{% endblock %}
+{% block content %}
+<div class="table-container">
+    <h2>{% trans "Delete Administrative Request" %}</h2>
+    <p>{% trans "Are you sure you want to delete the administrative request for" %} "{{ item.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">{% trans "Confirm" %}</button>
+        <a href="{% url 'administrative_request_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+{% endblock %}

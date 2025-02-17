@@ -1,0 +1,15 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'import_warehouse' %}" class="btn btn-primary mr-2">{% trans "Import" %}</a>
+    <a href="{% url 'export_warehouse' %}" class="btn btn-secondary">{% trans "Export" %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ title }}</h2>
+    <!-- Add your analysis content here -->
+</div>
+{% endblock %}

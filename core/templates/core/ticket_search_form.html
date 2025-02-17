@@ -1,0 +1,11 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+<div class="search-form-container">
+    <h2 class="table-title">{% trans "Search Tickets" %}</h2>
+    <form class="search-form form-inline" method="get" action="{% url 'ticket_search_view' %}">
+        {{ form.as_p }}
+        <button class="btn btn-outline-success" type="submit">{% trans "Search" %}</button>
+    </form>
+</div>
+{% endblock %}

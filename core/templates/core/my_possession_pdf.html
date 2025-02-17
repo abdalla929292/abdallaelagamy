@@ -1,0 +1,38 @@
+{% extends 'core/base_pdf.html' %}
+{% load i18n role_filters %}
+
+{% block title %}My Possessions{% endblock %}
+
+{% block content %}
+<h2>My Possessions</h2>
+<table>
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Item Type</th>
+            <th>Quantity</th>
+            <th>Date Received</th>
+            <th>Date Returned</th>
+            <th>Attachment Paper</th>
+            <th>Attachment Item Condition</th>
+            <th>Status</th>
+            <th>Signature of Receiving</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.no }}</td>
+            <td>{{ item.item_type }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.date_received }}</td>
+            <td>{{ item.date_returned }}</td>
+            <td>{{ item.attachment_paper }}</td>
+            <td>{{ item.attachment_item_condition }}</td>
+            <td>{{ item.status }}</td>
+            <td>{{ item.signature_of_receiving }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "HR Warehouse" %}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            margin: 0;
+            padding: 15px;
+        }
+        h2 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 6px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h2>{% trans "HR Warehouse" %}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "Item No." %}</th>
+                <th>{% trans "Item Type" %}</th>
+                <th>{% trans "Plate Number" %}</th>
+                <th>{% trans "Last Checkup Date" %}</th>
+                <th>{% trans "Duration of Checkup" %}</th>
+                <th>{% trans "End Checkup Date" %}</th>
+                <th>{% trans "License Last Checkup" %}</th>
+                <th>{% trans "Duration of License" %}</th>
+                <th>{% trans "End License Date" %}</th>
+                <th>{% trans "Insurance Date Renew" %}</th>
+                <th>{% trans "Duration of Insurance" %}</th>
+                <th>{% trans "End Insurance Date" %}</th>
+                <th>{% trans "Current Driver" %}</th>
+                <th>{% trans "Location" %}</th>
+                <th>{% trans "Traffic Violation Price" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.item_no }}</td>
+                <td>{{ item.item_type }}</td>
+                <td>{{ item.plate_number }}</td>
+                <td>{{ item.last_checkup_date|date:"Y-m-d" }}</td>
+                <td>{{ item.duration_of_checkup }}</td>
+                <td>{{ item.end_checkup_date|date:"Y-m-d" }}</td>
+                <td>{{ item.license_last_checkup|date:"Y-m-d" }}</td>
+                <td>{{ item.duration_of_license }}</td>
+                <td>{{ item.end_license_date|date:"Y-m-d" }}</td>
+                <td>{{ item.insurance_date_renew|date:"Y-m-d" }}</td>
+                <td>{{ item.duration_of_insurance }}</td>
+                <td>{{ item.end_insurance_date|date:"Y-m-d" }}</td>
+                <td>{{ item.current_driver }}</td>
+                <td>{{ item.location }}</td>
+                <td>{{ item.traffic_violation_price }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="15">{% trans "No items found." %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="font-size:8px; text-align:right; margin-top:20px;">
+        {% trans "Generated on" %}: {% now "Y-m-d H:i" %}
+    </div>
+</body>
+</html>

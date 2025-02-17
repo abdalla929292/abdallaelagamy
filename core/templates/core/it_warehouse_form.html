@@ -1,0 +1,190 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}
+    {{ form.instance.pk|yesno:"Edit IT Warehouse Item,Create IT Warehouse Item" }}
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>{{ form.instance.pk|yesno:"Edit IT Warehouse Item,Create IT Warehouse Item" }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                {# 1) Manually render item_no #}
+                {% for field in form %}
+                    {% if field.name == 'item_no' %}
+                        <tr>
+                            <th>{{ field.label_tag }}</th>
+                            <td>
+                                <input type="text" id="id_item_no" name="item_no" value="{{ field.value|default_if_none:'' }}" class="form-control" readonly />
+                                {% for error in field.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                    {# 2) Skip attachments & signature; handle them below. #}
+                    {% elif field.name not in 'attachments attachments_2 signature_holder signature_department_manager' %}
+                        <tr>
+                            <th>{{ field.label_tag }}</th>
+                            <td>
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+                {# 3) Attachment #1 #}
+                <tr>
+                    <th>Attachment #1</th>
+                    <td>
+                        {% if form.instance.attachments %}
+                            <img src="{{ form.instance.attachments.url }}" alt="Attachment #1" class="attachment-preview" />
+                            <div class="mt-1">
+                                <a href="{{ form.instance.attachments.url }}" class="btn btn-sm btn-secondary" download>
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form.attachments }}
+                        {% for error in form.attachments.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                {# 4) Attachment #2 #}
+                <tr>
+                    <th>Attachment #2</th>
+                    <td>
+                        {% if form.instance.attachments_2 %}
+                            <img src="{{ form.instance.attachments_2.url }}" alt="Attachment #2" class="attachment-preview" />
+                            <div class="mt-1">
+                                <a href="{{ form.instance.attachments_2.url }}" class="btn btn-sm btn-secondary" download>
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{ form.attachments_2 }}
+                        {% for error in form.attachments_2.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                {# 5) Signature by Employee (Item With) - Cannot be Edited #}
+                <tr>
+                    <th>{% trans "Employee Signature (Item With)" %}</th>
+                    <td>
+                        {% if form.instance.signature_holder %}
+                            <img src="{{ form.instance.signature_holder.url }}" alt="Employee Signature" class="signature-preview">
+                        {% elif user == form.instance.item_with %}
+                            <canvas id="signaturePadEmployee" class="signature-canvas"></canvas>
+                            <input type="hidden" name="signature_holder" id="signatureEmployeeInput">
+                            <button type="button" class="btn btn-danger clear-signature" data-target="signaturePadEmployee">
+                                {% trans "Clear" %}
+                            </button>
+                        {% else %}
+                            <span class="text-muted">{% trans "Waiting for Employee Signature" %}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {# 6) Signature by Department Manager (Cannot be Edited) #}
+                <tr>
+                    <th>{% trans "Department Manager Signature" %}</th>
+                    <td>
+                        {% if form.instance.signature_department_manager %}
+                            <img src="{{ form.instance.signature_department_manager.url }}" alt="Manager Signature" class="signature-preview">
+                        {% elif user.is_staff or user.is_superuser %}
+                            <canvas id="signaturePadManager" class="signature-canvas"></canvas>
+                            <input type="hidden" name="signature_department_manager" id="signatureManagerInput">
+                            <button type="button" class="btn btn-danger clear-signature" data-target="signaturePadManager">
+                                {% trans "Clear" %}
+                            </button>
+                        {% else %}
+                            <span class="text-muted">{% trans "Waiting for Manager Approval" %}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary" onclick="saveSignature()">
+            {% trans "Save" %}
+        </button>
+        <a href="{% url 'it_warehouse_list' %}" class="btn btn-secondary">
+            {% trans "Cancel" %}
+        </a>
+    </form>
+</div>
+
+<!-- Signature Pad -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1) Initialize signature pad for Employee
+    const employeeCanvas = document.getElementById("signaturePadEmployee");
+    const employeeInput = document.getElementById("signatureEmployeeInput");
+    if (employeeCanvas) {
+        const signaturePadEmployee = new SignaturePad(employeeCanvas);
+        
+        document.querySelector('[data-target="signaturePadEmployee"]').addEventListener("click", function() {
+            signaturePadEmployee.clear();
+            employeeInput.value = "";
+        });
+
+        employeeCanvas.addEventListener("mouseup", function() {
+            employeeInput.value = signaturePadEmployee.toDataURL();
+        });
+    }
+
+    // 2) Initialize signature pad for Department Manager
+    const managerCanvas = document.getElementById("signaturePadManager");
+    const managerInput = document.getElementById("signatureManagerInput");
+    if (managerCanvas) {
+        const signaturePadManager = new SignaturePad(managerCanvas);
+
+        document.querySelector('[data-target="signaturePadManager"]').addEventListener("click", function() {
+            signaturePadManager.clear();
+            managerInput.value = "";
+        });
+
+        managerCanvas.addEventListener("mouseup", function() {
+            managerInput.value = signaturePadManager.toDataURL();
+        });
+    }
+
+    // 3) Save Signatures on Submit
+    window.saveSignature = function() {
+        if (employeeCanvas) employeeInput.value = signaturePadEmployee.toDataURL();
+        if (managerCanvas) managerInput.value = signaturePadManager.toDataURL();
+    };
+});
+</script>
+
+<style>
+.signature-canvas {
+    border: 1px solid #000;
+    width: 100%;
+    height: 200px;
+}
+.signature-preview, .attachment-preview {
+    max-width: 150px;
+    max-height: 80px;
+    border: 1px solid #000;
+    margin-right: 8px;
+    display: block;
+}
+.btn-sm i {
+    margin-right: 4px;
+}
+</style>
+
+{% endblock %}

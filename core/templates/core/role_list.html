@@ -1,0 +1,80 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'export_roles_to_excel' %}" class="btn btn-secondary mr-2">{% trans "Export as Excel" %}</a>
+    <a href="{% url 'export_roles_to_pdf' %}" class="btn btn-secondary mr-2">{% trans "Export as PDF" %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="table-container">
+        <h2 class="mb-3">{% trans "Roles" %}</h2>
+
+        {% if user|has_role:"Admin" %}
+        <div class="d-flex mb-4">
+            <div class="left-side">
+                <a href="{% url 'role_create' %}" class="btn-custom">
+                    {% trans "Create New Role" %}
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for role in roles %}
+                <tr>
+                    <td>{{ role.name }}</td>
+                    <td>
+                        {% if user|has_role:"Admin" %}
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="{% url 'role_update' role.id %}" class="btn btn-warning">{% trans "Edit" %}</a>
+                            <a href="{% url 'role_delete' role.id %}" class="btn btn-danger">{% trans "Delete" %}</a>
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>{% trans "You do not have permission to view this page." %}</p>
+{% endif %}
+
+<style>
+.left-side {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #007bff;
+}
+.btn-custom {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
+    word-wrap: break-word;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+{% endblock %}

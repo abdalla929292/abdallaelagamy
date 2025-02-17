@@ -1,0 +1,90 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}{% trans "Ticket Details" %}{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="table-container">
+    <h2>{% trans "Ticket Details" %}</h2>
+    <table class="table table-bordered table-striped ticket-details-table">
+        <tbody>
+            <tr><th>{% trans "Title" %}:</th><td>{{ ticket.title }}</td></tr>
+            <tr><th>{% trans "Description" %}:</th><td>{{ ticket.description }}</td></tr>
+            <tr><th>{% trans "Request Type" %}:</th><td>{{ ticket.request_type.name }}</td></tr>
+            <tr><th>{% trans "Department" %}:</th><td>{{ ticket.department.name }}</td></tr>
+            <tr><th>{% trans "Assigned To" %}:</th><td>{{ ticket.get_assigned_to_full_name }}</td></tr>
+            <tr><th>{% trans "Applied By" %}:</th><td>{{ ticket.get_applied_by_full_name }}</td></tr>
+            <tr><th>{% trans "Applied For" %}:</th><td>{{ ticket.get_applied_for_full_name }}</td></tr>
+            <tr><th>{% trans "Status" %}:</th><td>{{ ticket.get_status_display }}</td></tr>
+            <tr><th>{% trans "Notes" %}:</th><td>{{ ticket.notes }}</td></tr>
+            <tr>
+                <th>{% trans "Attachment" %}:</th>
+                <td>
+                    {% if ticket.attachment %}
+                        <a href="{{ ticket.attachment.url }}" class="btn btn-primary btn-sm" download>{% trans "Download" %}</a>
+                    {% else %}
+                        {% trans "No file attached" %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr><th>{% trans "Date Created" %}:</th><td>{{ ticket.date_created|date:"l, d/m/Y h:i A" }}</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Signatures Section -->
+    <h3>{% trans "Signatures" %}</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>{% trans "User" %}</th>
+                <th>{% trans "Signature" %}</th>
+                <th>{% trans "Timestamp" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for signature in ticket.signatures.all %}
+            <tr>
+                <td>{{ signature.user.get_full_name }}</td>
+                <td>
+                    {% if signature.image %}
+                        <img src="{{ signature.image.url }}" alt="{{ signature.user.get_full_name }}" class="signature-img"/>
+                    {% else %}
+                        <span class="text-danger">{% trans "No signature available" %}</span>
+                    {% endif %}
+                </td>
+                <td>{{ signature.timestamp|date:"l, d/m/Y h:i A" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3" class="text-center">{% trans "No signatures found." %}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Status Updates Section -->
+    <h3>{% trans "Status Updates" %}</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>{% trans "User" %}</th>
+                <th>{% trans "Previous Status" %}</th>
+                <th>{% trans "New Status" %}</th>
+                <th>{% trans "Timestamp" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for status_update in status_updates %}
+            <tr>
+                <td>{{ status_update.user.get_full_name }}</td>
+                <td>{{ status_update.previous_status }}</td>
+                <td>{{ status_update.new_status }}</td>
+                <td>{{ status_update.timestamp|date:"l, d/m/Y h:i A" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-center">{% trans "No status updates found." %}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'core/base_form.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    <h2>{% trans "Update Clearance Status" %}</h2>
+    
+    <!-- Display existing signatures -->
+    {% if clearance.signatures.all %}
+      <div class="existing-signatures mb-3">
+        <h3 class="mb-2">{% trans "Existing Signatures" %}</h3>
+        {% for sig in clearance.signatures.all %}
+          <div class="signature-entry mb-2">
+              <strong>{{ sig.manager.get_full_name }}</strong><br>
+              <img src="{{ sig.signature.url }}" alt="Signature" style="max-width: 400px; border: 1px solid #000;"><br>
+              <small>{{ sig.status }} - {{ sig.approval_note }}</small>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    {% if not can_sign %}
+      <p class="alert alert-info">
+         {% trans "You have already signed. You cannot update your signature." %}
+      </p>
+      <a href="{% url 'company_clearance_list' %}" class="btn btn-secondary">{% trans "Back" %}</a>
+    {% else %}
+    <form id="statusForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th>{% trans "Status" %}</th>
+                    <td>
+                        <select name="status" id="status" class="form-control">
+                            <option value="Approved">{% trans "Approved" %}</option>
+                            <option value="Rejected">{% trans "Rejected" %}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "Approval Note" %}</th>
+                    <td>
+                        <textarea name="approval_note" id="approval_note" class="form-control"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "Signature" %}</th>
+                    <td>
+                        <canvas id="signature-pad" class="signature-pad" width="400" height="200" style="border: 1px solid #000;"></canvas>
+                        <br>
+                        <button type="button" id="clear-signature" class="btn btn-secondary mt-2">{% trans "Clear Signature" %}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="hidden" name="signature_data" id="signature_data">
+        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+    </form>
+    {% endif %}
+</div>
+
+{% if can_sign %}
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var canvas = document.getElementById('signature-pad');
+    if (!canvas) { console.error("Signature pad canvas not found!"); return; }
+    var signaturePad = new SignaturePad(canvas);
+    document.getElementById('clear-signature').addEventListener('click', function(){
+        signaturePad.clear();
+    });
+    document.getElementById('statusForm').addEventListener('submit', function(e) {
+        if (!signaturePad.isEmpty()) {
+            var dataURL = signaturePad.toDataURL('image/png');
+            document.getElementById('signature_data').value = dataURL;
+        }
+    });
+});
+</script>
+{% endif %}
+{% endblock %}

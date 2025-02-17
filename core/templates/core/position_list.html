@@ -1,0 +1,109 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'export_positions_to_excel' %}" class="btn btn-secondary mr-2">
+        {% trans "Export as Excel" %}
+    </a>
+    <a href="{% url 'export_positions_to_pdf' %}" class="btn btn-secondary mr-2">
+        {% trans "Export as PDF" %}
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="table-container">
+        <h2 class="mb-3">{% trans "Positions" %}</h2>
+        
+        {% if user|has_role:"Admin" %}
+        <div class="d-flex mb-4">
+            <div class="left-side">
+                <a href="{% url 'position_create' %}" class="btn-custom">
+                    {% trans "Create New Position" %}
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{% trans "Position" %}</th>
+                        <th>{% trans "Sub-Positions" %}</th>
+                        <th>{% trans "Actions" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for position in positions %}
+                    <tr>
+                        <td>{{ position.name }}</td>
+                        <td>
+                            {% for sub_position in position.sub_positions.all %}
+                            <span>{{ sub_position.name }}</span><br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if user|has_role:"Admin" %}
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{% url 'position_update' position.pk %}" class="btn btn-warning">
+                                    {% trans "Edit" %}
+                                </a>
+                                <a href="{% url 'position_delete' position.pk %}" class="btn btn-danger">
+                                    {% trans "Delete" %}
+                                </a>
+                                <a href="{% url 'sub_position_create' position.pk %}" class="btn btn-success">
+                                    {% trans "Add Sub" %}
+                                </a>
+                                <a href="{% url 'sub_position_delete' position.pk %}" class="btn btn-danger">
+                                    {% trans "Delete Sub" %}
+                                </a>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">{% trans "No positions found." %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <style>
+    /* Container for the Create New Position button (matching Add New User button style) */
+    .left-side {
+        width: 200px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #007bff;
+    }
+
+    /* Custom button style (matching Add New User button style) */
+    .btn-custom {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: normal;
+        word-wrap: break-word;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    </style>
+{% else %}
+    <p>{% trans "You do not have permission to view this page." %}</p>
+{% endif %}
+{% endblock %}

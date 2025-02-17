@@ -1,0 +1,113 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Financial Warehouse" %}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 9px;
+            margin: 0;
+            padding: 15px;
+        }
+        h2 {
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto; /* Let columns adjust based on content */
+            margin-bottom: 10px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 4px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h2>{% trans "Financial Warehouse" %}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "Item No." %}</th>
+                <th>{% trans "Item Name" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Date Received" %}</th>
+                <th>{% trans "Date Leave" %}</th>
+                <th>{% trans "Storing Location" %}</th>
+                <th>{% trans "Quantity" %}</th>
+                <th>{% trans "Price" %}</th>
+                <th>{% trans "VAT Percentage" %}</th>
+                <th>{% trans "Total VAT" %}</th>
+                <th>{% trans "Total Price" %}</th>
+                <th>{% trans "Net Price" %}</th>
+                <th>{% trans "Serial Number" %}</th>
+                <th>{% trans "Received From" %}</th>
+                <th>{% trans "Item With" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.item_no|default:"-" }}</td>
+                <td>{{ item.item_name|default:"-" }}</td>
+                <td>{{ item.description|default:"-" }}</td>
+                <td>{{ item.date_received|date:"M. d, Y" }}</td>
+                <td>
+                    {% if item.date_leave %}
+                        {{ item.date_leave|date:"M. d, Y" }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>{{ item.storing_location|default:"-" }}</td>
+                <td>{{ item.quantity|default:"-" }}</td>
+                <td>{{ item.price|default:"-" }}</td>
+                <td>{{ item.vat_percentage|default:"-" }}</td>
+                <td>{{ item.total_vat|default:"-" }}</td>
+                <td>{{ item.total_price|default:"-" }}</td>
+                <td>{{ item.net_price|default:"-" }}</td>
+                <td>{{ item.serial_number|default:"-" }}</td>
+                <td>
+                    {% if item.received_from %}
+                        {{ item.received_from.get_full_name }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.item_with %}
+                        {{ item.item_with.get_full_name }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.is_taken %}
+                        {% trans "Taken" %}
+                    {% else %}
+                        {% trans "Available" %}
+                    {% endif %}
+                </td>
+                <td>N/A</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

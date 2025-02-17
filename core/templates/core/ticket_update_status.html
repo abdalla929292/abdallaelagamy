@@ -1,0 +1,215 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block content %}
+<style>
+/* Base status button styles */
+.btn-status {
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    pointer-events: none;
+    margin: 2px;
+    width: 80px;
+    height: 35px;
+    padding: 3px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Individual status button styles */
+.btn-status-open {
+    background-color: #007bff !important;
+}
+
+.btn-status-submitted {
+    background-color: #ffc107 !important;
+}
+
+.btn-status-in-progress {
+    background-color: #3a7465 !important;
+}
+
+.btn-status-rejected {
+    background-color: #dc3545 !important;
+}
+
+.btn-status-accepted {
+    background-color: #28a745 !important;
+}
+
+.btn-status-canceled {
+    background-color: #264b5d !important;
+}
+
+/* Form specific styles */
+.preview-container {
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-update-status {
+    background-color: #4b63a3;
+    color: white;
+    width: 100px;
+    height: 35px;
+    margin-right: 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    width: 80px;
+    height: 35px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    color: white;
+    text-decoration: none;
+}
+
+.card {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: none;
+}
+
+.card-header {
+    background-color: #343a40;
+    color: white;
+    padding: 15px;
+    border-radius: 4px 4px 0 0;
+}
+
+.card-header h2 {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.form-control {
+    height: 35px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    color: #495057;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+</style>
+
+{% if user.is_authenticated %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>{% trans "Update Ticket Status" %}</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="status">{% trans "Status" %}:</label>
+                            <select name="status" id="status" class="form-control">
+                                {% for value, name in ticket.STATUS_CHOICES %}
+                                    <option value="{{ value }}" {% if ticket.status == value %}selected{% endif %}>
+                                        {{ name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <!-- Status Preview -->
+                            <div class="preview-container">
+                                <span class="btn-status btn-status-{{ ticket.status|default:'open' }}">
+                                    {{ ticket.get_status_display|default:"Current Status" }}
+                                </span>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="button-group">
+                                <button type="submit" class="btn-update-status">
+                                    {% trans "Update Status" %}
+                                </button>
+                                
+                                <a href="{% url 'ticket_list' %}" class="btn-secondary">
+                                    {% trans "Cancel" %}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('status');
+    const statusPreview = document.querySelector('.btn-status');
+    
+    statusSelect.addEventListener('change', function() {
+        // Remove existing status classes
+        statusPreview.classList.forEach(className => {
+            if (className.startsWith('btn-status-')) {
+                statusPreview.classList.remove(className);
+            }
+        });
+        
+        // Add new status class
+        statusPreview.classList.add(`btn-status-${this.value}`);
+        
+        // Update the preview text
+        statusPreview.textContent = this.options[this.selectedIndex].text;
+    });
+});
+</script>
+{% endif %}
+{% endblock %}

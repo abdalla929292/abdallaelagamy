@@ -1,0 +1,28 @@
+{% extends "core/base_form.html" %}
+
+{% block content %}
+<h2>{{ item.item_model_name }}</h2>
+<p><strong>Item No:</strong> {{ item.item_no }}</p>
+<p><strong>Condition:</strong> {{ item.condition }}</p>
+<p><strong>Quantity:</strong> {{ item.quantity }}</p>
+<p><strong>Date Given:</strong> {{ item.date_given }}</p>
+
+<!-- Additional Info (if you want to show the attachment, etc.) -->
+{% if item.signature_holder %}
+    <p><strong>Attachment:</strong></p>
+    <div class="btn-group btn-group-sm">
+        <!-- View -->
+        <a href="{{ item.signature_holder.url }}" target="_blank" class="btn btn-info mb-1">
+            <i class="fas fa-eye"></i> View
+        </a>
+        <!-- Download -->
+        <a href="{{ item.signature_holder.url }}" download class="btn btn-success mb-1">
+            <i class="fas fa-download"></i> Download
+        </a>
+    </div>
+{% else %}
+    <p><strong>Attachment:</strong> <span class="text-muted">No Attachment</span></p>
+{% endif %}
+
+<a href="{% url 'it_warehouse_list' %}" class="btn btn-secondary">{% trans "Back to List" %}</a>
+{% endblock %}

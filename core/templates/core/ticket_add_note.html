@@ -1,0 +1,18 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h2>{% trans "Add Note to Ticket" %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="note">{% trans "Note" %}:</label>
+            <textarea name="note" id="note" class="form-control" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">{% trans "Add Note" %}</button>
+    </form>
+{% else %}
+    <p class="text-danger">{% trans "You must be logged in to add a note." %}</p>
+{% endif %}
+{% endblock %}

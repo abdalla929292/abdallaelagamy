@@ -1,0 +1,65 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Financial Warehouse" %}</title>
+    <style>
+        /* Minimal CSS for testing */
+        body { font-family: Arial, sans-serif; font-size: 10px; padding: 15px; }
+        table { width: 100%; border-collapse: collapse; }
+        table, th, td { border: 1px solid #000; }
+        th, td { padding: 6px; text-align: left; }
+    </style>
+</head>
+<body>
+    <h2>{% trans "Financial Warehouse" %}</h2>
+    <!-- For debugging: show the count of items -->
+    <p>{% trans "Total Items:" %} {{ financial_warehouse.count }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "Item No." %}</th>
+                <th>{% trans "Item Name" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Date Received" %}</th>
+                <th>{% trans "Date Leave" %}</th>
+                <th>{% trans "Storing Location" %}</th>
+                <th>{% trans "Quantity" %}</th>
+                <th>{% trans "Price" %}</th>
+                <th>{% trans "VAT Percentage" %}</th>
+                <th>{% trans "Total VAT" %}</th>
+                <th>{% trans "Total Price" %}</th>
+                <th>{% trans "Net Price" %}</th>
+                <th>{% trans "Serial Number" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in financial_warehouse %}
+            <tr>
+                <td>{{ item.item_no }}</td>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{% if item.date_received %}{{ item.date_received|date:"Y-m-d" }}{% else %}N/A{% endif %}</td>
+                <td>{% if item.date_leave %}{{ item.date_leave|date:"Y-m-d" }}{% else %}N/A{% endif %}</td>
+                <td>{{ item.storing_location }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.vat_percentage }}%</td>
+                <td>{{ item.total_vat }}</td>
+                <td>{{ item.total_price }}</td>
+                <td>{{ item.net_price }}</td>
+                <td>{{ item.serial_number }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="13">{% trans "No items found." %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="font-size:8px; text-align:right; margin-top:20px;">
+        {% trans "Generated on" %}: {% now "Y-m-d H:i" %}
+    </div>
+</body>
+</html>

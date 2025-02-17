@@ -1,0 +1,228 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+
+{% block content %}
+<div class="table-container">
+    <h2 class="mb-3">{% trans "Financial Warehouse" %}</h2>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons mb-4 d-flex justify-content-between">
+        {% if not is_worker %}
+        <div class="left-side">
+            <a href="{% url 'financial_warehouse_create' %}" class="btn-custom">
+                {% trans "Add New Item" %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    {% block import_export_buttons %}
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'export_financial_warehouse_to_pdf' %}" class="btn btn-secondary mr-2">
+            {% trans "Export as PDF" %}
+        </a>
+    </div>
+    {% endblock %}
+    
+    <!-- Search Form -->
+    <form method="get" class="form-inline mb-3">
+        <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Search' %}" class="form-control mr-2">
+        <input type="date" name="date_from" value="{{ date_from }}" class="form-control mr-2">
+        <input type="date" name="date_to" value="{{ date_to }}" class="form-control mr-2">
+        <input type="text" name="name" value="{{ name }}" placeholder="{% trans 'Item Name' %}" class="form-control mr-2">
+        <button type="submit" class="btn btn-outline-success">
+            {% trans "Search" %}
+        </button>
+    </form>
+
+    <!-- Data Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans "Item No." %}</th>
+                    <th>{% trans "Item Name" %}</th>
+                    <th>{% trans "Description" %}</th>
+                    <th>{% trans "Date Received" %}</th>
+                    <th>{% trans "Date Leave" %}</th>
+                    <th>{% trans "Storing Location" %}</th>
+                    <th>{% trans "Quantity" %}</th>
+                    <th>{% trans "Price" %}</th>
+                    <th>{% trans "VAT Percentage" %}</th>
+                    <th>{% trans "Total VAT" %}</th>
+                    <th>{% trans "Total Price" %}</th>
+                    <th>{% trans "Net Price" %}</th>
+                    <th>{% trans "Serial Number" %}</th>
+                    <th>{% trans "Received From" %}</th>
+                    <th>{% trans "Item With" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    {% if not is_worker %}
+                    <th>{% trans "Actions" %}</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.item_no }}</td>
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.date_received }}</td>
+                    <td>{{ item.date_leave }}</td>
+                    <td>{{ item.storing_location }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.vat_percentage }}</td>
+                    <td>{{ item.total_vat }}</td>
+                    <td>{{ item.total_price }}</td>
+                    <td>{{ item.net_price }}</td>
+                    <td>{{ item.serial_number }}</td>
+                    <td>{{ item.received_from.get_full_name|default:"-" }}</td>
+                    <td>{{ item.item_with.get_full_name|default:"-" }}</td>
+                    <td>
+                        {% if item.is_taken %}
+                            <span class="badge badge-warning">{% trans "Taken" %}</span>
+                        {% else %}
+                            <span class="badge badge-success">{% trans "Available" %}</span>
+                        {% endif %}
+                    </td>
+                    {% if not is_worker %}
+                    <td>
+                        {% if not item.is_taken %}
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#assignModal{{ item.pk }}">
+                            {% trans "Assign Item" %}
+                        </button>
+
+                        <!-- Modal for assigning item -->
+                        <div class="modal fade" id="assignModal{{ item.pk }}" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">{% trans "Assign Item" %}</h5>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span>&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="post" action="{% url 'assign_item' item.pk %}">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>{% trans "Select User" %}</label>
+                                                <select name="user_id" class="form-control" required>
+                                                    <option value="">{% trans "Choose a user" %}</option>
+                                                    {% for user in users %}
+                                                        <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
+                                            <button type="submit" class="btn btn-primary">{% trans "Assign" %}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="16" class="text-center">
+                        {% trans "No items found." %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .left-side {
+        width: 200px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #007bff;
+    }
+    
+    .btn-custom {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: normal;
+        word-wrap: break-word;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .btn-secondary {
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+        margin-bottom: 1rem;
+    }
+    
+    .d-flex {
+        gap: 8px;
+    }
+    
+    .badge {
+        padding: 0.5em 0.75em;
+        font-size: 85%;
+    }
+    
+    .badge-warning {
+        background-color: #ffc107;
+        color: #000;
+    }
+    
+    .badge-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+    
+    .btn-info {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+    
+    .btn-info:hover {
+        background-color: #138496;
+    }
+    
+    .modal-content {
+        border-radius: 0.3rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .close {
+        font-size: 1.5rem;
+        opacity: .5;
+        cursor: pointer;
+    }
+    
+    .close:hover {
+        opacity: .75;
+    }
+</style>
+{% endblock %}

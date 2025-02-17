@@ -1,0 +1,56 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+<div class="search-results-container">
+    <h2 class="table-title">{% trans "Search Results" %}</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>{% trans "Ticket No" %}</th>
+                <th>{% trans "Department" %}</th>
+                <th>{% trans "Request Type" %}</th>
+                <th>{% trans "Title" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Applied By" %}</th>
+                <th>{% trans "Applied For" %}</th>
+                <th>{% trans "Assigned To" %}</th>
+                <th>{% trans "Date & Time" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Notes" %}</th>
+                <th>{% trans "Attachment" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.department.name }}</td>
+                <td>{{ ticket.request_type.name }}</td>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.description }}</td>
+                <td>{{ ticket.applied_by.get_full_name }}</td>
+                <td>{{ ticket.applied_for.get_full_name }}</td>
+                <td>{{ ticket.assigned_to.get_full_name }}</td>
+                <td>{{ ticket.date|date:"l, d/m/Y h:i A" }}</td>
+                <td><span class="btn btn-status-{{ ticket.status|lower }}">{{ ticket.status }}</span></td>
+                <td>{{ ticket.notes }}</td>
+                <td>{% if ticket.attachment %}<a href="{{ ticket.attachment.url }}">Download</a>{% else %}N/A{% endif %}</td>
+                <td>
+                    <a href="{% url 'ticket_detail' ticket.pk %}" class="btn btn-info btn-sm">{% trans "View" %}</a>
+                    <a href="{% url 'ticket_update' ticket.pk %}" class="btn btn-secondary btn-sm">{% trans "Edit" %}</a>
+                    <a href="{% url 'ticket_delete' ticket.pk %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+                    <a href="{% url 'ticket_reassign' ticket.pk %}" class="btn btn-success btn-sm">{% trans "Reassign" %}</a>
+                    <a href="{% url 'ticket_transfer' ticket.pk %}" class="btn btn-primary btn-sm">{% trans "Transfer" %}</a>
+                    <a href="{% url 'ticket_update_status' ticket.pk %}" class="btn btn-warning btn-sm">{% trans "Update Status" %}</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="13" class="text-center">{% trans "No tickets found." %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

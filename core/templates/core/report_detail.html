@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container">
+    <h2>{% trans "Report Detail" %}: {{ report.title }}</h2>
+    <p><strong>{% trans "Report Type" %}:</strong> {{ report.get_report_type_display }}</p>
+    <p><strong>{% trans "Period" %}:</strong> {{ report.get_period_display }}</p>
+    <p><strong>{% trans "Date Range" %}:</strong> {{ report.start_date }} - {{ report.end_date }}</p>
+    
+    <h3>{% trans "Aggregated Data" %}</h3>
+    {% if data %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>{% trans "Time Period" %}</th>
+                <th>{% trans "Total Count" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in data %}
+            <tr>
+                <td>
+                    {% if entry.period_date %}
+                        {{ entry.period_date|date:"Y-m-d" }}
+                    {% elif entry.week and entry.year %}
+                        {{ entry.year }} - {% trans "Week" %} {{ entry.week }}
+                    {% elif entry.quarter and entry.year %}
+                        {{ entry.year }} - Q{{ entry.quarter }}
+                    {% endif %}
+                </td>
+                <td>{{ entry.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>{% trans "No data found for the selected criteria." %}</p>
+    {% endif %}
+</div>
+{% endblock %}

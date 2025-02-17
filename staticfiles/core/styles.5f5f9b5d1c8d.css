@@ -1,0 +1,701 @@
+/* General styles and reset */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+footer {
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    height: 35px;
+    line-height: 30px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #343a40;
+    color: #fff;
+    padding: 0; /* Reduced padding */
+    text-align: center;
+    height: 15vh; /* Set header height to 15% of viewport height */
+    margin: 0;
+}
+
+header .company-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 75px;
+    margin-right: 10px;
+}
+
+header .company-logo {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+header .company-name-container h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+nav {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 0; /* Remove extra padding to connect header and nav */
+}
+
+.navbar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 1px;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #343a40;
+    background-color: #ffffff; /* Default background color */
+    text-decoration: none;
+    padding: 0;
+    border-radius: 0px;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    background-color: #2c2591; /* Hover background color */
+    color: #ffffff; /* Hover text color */
+}
+
+.navbar-nav .nav-item.dropdown .dropdown-menu {
+    background-color: #ffffff; /* Dropdown background color */
+}
+
+.navbar-nav .nav-item.dropdown .dropdown-menu .dropdown-item:hover {
+    background-color: #2c2591; /* Hover background color */
+    color: #ffffff; /* Hover text color */
+}
+
+.notification-btn {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    border: none;
+    background: none;
+    color: #fff;
+}
+
+.notification-btn .notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+.notification-icon {
+    font-size: 20px;
+}
+
+/* Additional styles to ensure proper layout */
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.table-container {
+    margin-top: 20px;
+    margin-bottom: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto; /* Ensure the table can scroll horizontally if needed */
+}
+
+.table-container table,
+.custom-table-container table {
+    width: 100%;
+    table-layout: fixed; /* This will make sure the table fills the container */
+}
+
+.table-container th, .table-container td,
+.custom-table-container th, .custom-table-container td {
+    border: 1px solid #ddd;
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    white-space: normal; /* Ensure content does not wrap within the cell */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px; /* Decrease font size */
+}
+
+.table-container th,
+.custom-table-container th {
+    background-color: #343a40;
+    color: white;
+    position: relative; /* Added for filter button positioning */
+}
+
+/* Add styles for the ticket details table */
+.ticket-details-table {
+    width: auto; /* Adjust width to fit the content */
+    margin: auto;
+}
+
+.ticket-details-table th, .ticket-details-table td {
+    border: 1px solid #ddd;
+    padding: 5px; /* Reduced padding */
+    white-space: nowrap; /* Prevents content from wrapping */
+    text-align: left; /* Align data cells to the left */
+}
+
+.ticket-details-table th {
+    background-color: #343a40;
+    color: #fff;
+    text-align: right; /* Align headers to the right */
+}
+
+/* Footer adjustments */
+footer {
+    font-size: 15px;
+    height: 20px;
+    line-height: 20px;
+}
+
+/* General button styles */
+button, .btn {
+    background-color: #0a32e4;
+    color: rgb(255, 255, 255);
+    width: 50px; /* Reduced width */
+    height: 30px; /* Reduced height */
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 10px; /* Adjusted font size */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* Specific styles for Search and Create Ticket buttons */
+.btn-search {
+    background-color: #007bff !important; /* Blue */
+    color: white !important;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    height: 36px;
+}
+
+/* Hover Effect */
+.btn-search:hover {
+    background-color: #007bff !important;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover Effect */
+.btn-create-ticket:hover {
+    background-color: #1e7e34 !important;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+button:hover, .btn:hover {
+    opacity: 0.8;
+}
+
+/* Specific button colors */
+.btn-primary {
+    background-color: #007bff;
+    font-size: 10px; /* Adjusted font size */
+    font-weight: bold;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    color: white;
+
+}
+
+.btn-secondary {
+    background-color: burlywood;
+    font-size: 10px; /* Adjusted font size */
+    font-weight: bold;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    color: white;
+
+}
+
+.btn-success {
+    background-color: #13c061;
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    font-weight: bold;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    font-weight: bold;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    padding: 1px;
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    font-weight: bold;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 10px; /* Adjusted font size */
+    font-weight: bold;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+}
+
+/* Status button styles */
+.btn-status {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px; /* Adjusted width to match others */
+    height: 30px; /* Match all status buttons */
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+.btn-status-open {
+    background-color: #007bff;
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+.btn-status-submitted {
+    background-color: #ffc107;
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+.btn-status-in-progress {
+    background-color: #407074;
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 10px; /* Adjusted font size */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+.btn-status-rejected {
+    background-color: #e72d3f;
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+.btn-status-accepted {
+    background-color: #064106;
+    width: 50px;
+    height: 30px;
+    padding: 3px;
+    text-align: center;
+    color: rgb(255, 255, 255);  /* Changed to black for better visibility on bright green */
+    font-size: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.btn-status-canceled {
+    background-color: #264b5d;
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* Update Status button styles */
+.btn-update-status {
+    background-color: #3e745f; /* Different color */
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* Transfer button styles */
+.btn-transfer {
+    background-color: #5d3c03; /* Different color */
+    width: 50px; /* Reduced width */
+    height: 30px; /* Adjusted height */
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    color: white;
+    font-size: 10px; /* Adjusted font size */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* Form styles */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+form .form-group {
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form .form-group input, form .form-group textarea, form .form-group select {
+    width: 100%;
+    padding: 5px; /* Reduced padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Create ticket button styles */
+.create-ticket-btn {
+    width: 65px; /* Adjusted width */
+    height: 30px; /* Adjusted height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form inline styles */
+.form-inline .form-control {
+    margin-right: 5px;
+    font-size: 10px; /* Adjusted font size */
+    padding: 3px; /* Reduced padding */
+}
+
+.form-inline {
+    display: flex;
+    align-items: center;
+}
+
+.form-inline .btn-outline-success {
+    font-size: 10px; /* Adjusted font size */
+    padding: 2px 5px; /* Reduced padding */
+}
+
+/* Outline button styles */
+.btn-outline-success {
+    color: #ffffff;
+    border: 1px solid #da9516;
+}
+
+.btn-outline-success:hover {
+    background-color: #1ec4c4;
+    color: white;
+}
+
+/* Search form styles */
+.search-form-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-form .form-control, .search-form .btn-outline-success {
+    margin-right: 5px;
+    font-size: 10px; /* Adjusted font size */
+    padding: 2px; /* Reduced padding */
+}
+
+/* Styles for specific tables excluding the main ticket table */
+.custom-table-container table {
+    width: auto; /* Adjust width to fit the content */
+    margin: auto;
+}
+
+.custom-table-container th, .custom-table-container td {
+    border: 1px solid #ddd;
+    padding: 5px; /* Reduced padding */
+    white-space: nowrap; /* Prevents content from wrapping */
+    text-align: center; /* Align text to the center */
+    font-size: 12px; /* Decrease font size */
+}
+
+/* Ensure this style remains for ticket table */
+.table-container table {
+    width: 100%;
+    table-layout: fixed; /* This will make sure the table fills the container */
+}
+
+.table-container th, .table-container td {
+    border: 1px solid #ddd;
+    padding: 3px; /* Reduced padding */
+    text-align: center;
+    white-space: normal; /* Ensure content does not wrap within the cell */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+    font-size: 12px; /* Decrease font size */
+}
+
+.table-container th {
+    background-color: #343a40;
+    border: 1px solid #ddd;
+    padding: 3px; /* Reduced padding */
+    color: white;
+    text-align: center;
+}
+
+/* Dropdown Button */
+.filterbtn {
+    background-color: #343a40;
+    color: white;
+    padding: 2px 5px;
+    font-size: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.filter-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.filter-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0; /* Align dropdown to the right */
+}
+
+.filter-dropdown-content input {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    font-size: 10px; /* Adjusted font size */
+}
+
+.filter-dropdown-content input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+.filter-dropdown:hover .filter-dropdown-content {
+    display: block;
+}
+
+.filter-dropdown:hover .filterbtn {
+    background-color: #e0e6e0;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.filter-dropdown-content {
+    display: none;
+    position:absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.filter-dropdown-content a {
+    color: rgb(228, 218, 218);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.filter-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu on hover */
+.filter-dropdown:hover .filter-dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.filter-dropdown:hover .filterbtn {
+    background-color: #d0dad1;
+}
+
+.signature-pad {
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove border radius */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.signature-pad--body canvas {
+    width: 100%;
+    height: 150px;
+    border: none; /* Remove border */
+    padding: 1px;
+    margin: 1px;
+}
+
+/* Signature Image Styles */
+.signature-img {
+    width: 120px; /* Increase width */
+    max-height: 50px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Container for the signature image */
+.signature-container {
+    text-align: center; /* Center the content */
+    vertical-align: middle; /* Center vertically within the cell */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    height: 65px; /* Adjust the height */
+    width: 300px; /* Increase the width */
+}
+
+/* PDF Specific Styles */
+@page {
+    size: A4 landscape;
+    margin: 1cm;
+}
+
+body {
+    font-size: 10px;
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+th {
+    background-color: #f2f2f2;
+}

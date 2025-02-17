@@ -1,0 +1,873 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025 Your Organization
+# This file is distributed under the same license as the PACKAGE package.
+# Your Name <your.email@example.com>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-13 16:13+0300\n"
+"PO-Revision-Date: 2025-02-13 16:13+0300\n"
+"Last-Translator: Your Name <your.email@example.com>\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "English"
+msgstr "الإنجليزية"
+
+msgid "Arabic"
+msgstr "العربية"
+
+msgid "Item With"
+msgstr "البند مع"
+
+msgid "Received From"
+msgstr "استلم من"
+
+msgid "National ID"
+msgstr "الهوية الوطنية"
+
+msgid "Enter your National ID number"
+msgstr "أدخل رقم الهوية الوطنية الخاص بك"
+
+msgid "Roles"
+msgstr "الأدوار"
+
+msgid "Position"
+msgstr "الوظيفة"
+
+msgid "Department"
+msgstr "القسم"
+
+msgid ""
+"The groups this user belongs to. A user will get all permissions granted to each of their groups."
+msgstr "المجموعات التي ينتمي إليها المستخدم. سيحصل المستخدم على كافة الصلاحيات الممنوحة لكل مجموعة."
+
+msgid "groups"
+msgstr "المجموعات"
+
+msgid "Specific permissions for this user."
+msgstr "الصلاحيات الخاصة بهذا المستخدم."
+
+msgid "user permissions"
+msgstr "صلاحيات المستخدم"
+
+msgid "User"
+msgstr "المستخدم"
+
+msgid "Users"
+msgstr "المستخدمون"
+
+msgid "Delete Administrative Request"
+msgstr "حذف الطلب الإداري"
+
+msgid "Are you sure you want to delete the administrative request for"
+msgstr "هل أنت متأكد أنك تريد حذف الطلب الإداري الخاص بـ"
+
+msgid "Confirm"
+msgstr "تأكيد"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "Electronic Signature (Employee)"
+msgstr "التوقيع الإلكتروني (الموظف)"
+
+msgid "Clear"
+msgstr "مسح"
+
+msgid "Save"
+msgstr "حفظ"
+
+msgid "Export as Excel"
+msgstr "تصدير إلى Excel"
+
+msgid "Export as PDF"
+msgstr "تصدير إلى PDF"
+
+msgid "Administrative Requests"
+msgstr "الطلبات الإدارية"
+
+msgid "Add New Request"
+msgstr "إضافة طلب جديد"
+
+msgid "Search"
+msgstr "بحث"
+
+msgid "Name"
+msgstr "الاسم"
+
+msgid "Request No."
+msgstr "رقم الطلب"
+
+msgid "Company"
+msgstr "الشركة"
+
+msgid "Request Type"
+msgstr "نوع الطلب"
+
+msgid "Explanation of Request"
+msgstr "شرح الطلب"
+
+msgid "Notes"
+msgstr "الملاحظات"
+
+msgid "Date"
+msgstr "التاريخ"
+
+msgid "Signature"
+msgstr "التوقيع"
+
+msgid "Status"
+msgstr "الحالة"
+
+msgid "Manager Approval"
+msgstr "موافقة المدير"
+
+msgid "GM Approval"
+msgstr "موافقة المدير العام"
+
+msgid "Actions"
+msgstr "الإجراءات"
+
+msgid "No signature"
+msgstr "لا يوجد توقيع"
+
+msgid "Open"
+msgstr "مفتوح"
+
+msgid "Accepted"
+msgstr "مقبول"
+
+msgid "Rejected"
+msgstr "مرفوض"
+
+msgid "Edit"
+msgstr "تعديل"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "No requests found."
+msgstr "لا توجد طلبات"
+
+msgid "Request No"
+msgstr "رقم الطلب"
+
+msgid "Type"
+msgstr "النوع"
+
+msgid "Explanation"
+msgstr "الشرح"
+
+msgid "Manager Status"
+msgstr "حالة المدير"
+
+msgid "GM Status"
+msgstr "حالة المدير العام"
+
+msgid "Generated on"
+msgstr "تم التوليد في"
+
+msgid "Import"
+msgstr "استيراد"
+
+msgid "Export"
+msgstr "تصدير"
+
+msgid "Tickets"
+msgstr "التذاكر"
+
+msgid "IT Request"
+msgstr "طلب تقني"
+
+msgid "IT Warehouse"
+msgstr "مستودع التقنية"
+
+msgid "Employee Details"
+msgstr "تفاصيل الموظف"
+
+msgid "Cars and Heavy Equip"
+msgstr "السيارات والمعدات الثقيلة"
+
+msgid "Financial Warehouse"
+msgstr "المستودع المالي"
+
+msgid "Departments"
+msgstr "الأقسام"
+
+msgid "Request Types"
+msgstr "أنواع الطلبات"
+
+msgid "Positions"
+msgstr "الوظائف"
+
+msgid "Company Settings"
+msgstr "إعدادات الشركة"
+
+msgid "Change Password"
+msgstr "تغيير كلمة المرور"
+
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+msgid "Developed by Abdalla Elagamy, IT Manager"
+msgstr "تم التطوير بواسطة عبد الله العلاقمي، مدير تكنولوجيا المعلومات"
+
+msgid "Back to list"
+msgstr "عودة للقائمة"
+
+msgid "Company Choices"
+msgstr "خيارات الشركة"
+
+msgid "Add New Company Choice"
+msgstr "إضافة خيار شركة جديد"
+
+msgid "No company choices added yet."
+msgstr "لم تتم إضافة خيارات شركة بعد."
+
+msgid "Delete Company Clearance"
+msgstr "حذف تصريح الشركة"
+
+msgid "Are you sure you want to delete the company clearance for"
+msgstr "هل أنت متأكد من حذف تصريح الشركة الخاص بـ"
+
+msgid "Company Clearances"
+msgstr "تصاريح الشركة"
+
+msgid "Project/Department"
+msgstr "المشروع/القسم"
+
+msgid "National ID/Iqama No."
+msgstr "رقم الهوية الوطنية/الإقامة"
+
+msgid "Today Date"
+msgstr "تاريخ اليوم"
+
+msgid "Last Day of Work"
+msgstr "آخر يوم عمل"
+
+msgid "Leaving Reasons"
+msgstr "أسباب المغادرة"
+
+msgid "Management Signatures"
+msgstr "تواقيع الإدارة"
+
+msgid "Add New Clearance"
+msgstr "إضافة تصريح شركة جديد"
+
+msgid "Delete Contractor"
+msgstr "حذف المقاول"
+
+msgid "Are you sure you want to delete the contractor"
+msgstr "هل أنت متأكد من حذف المقاول"
+
+msgid "Contractors"
+msgstr "المقاولون"
+
+msgid "Gov Registration Number"
+msgstr "رقم التسجيل الحكومي"
+
+msgid "Tax Number"
+msgstr "الرقم الضريبي"
+
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+msgid "Phone Number"
+msgstr "رقم الهاتف"
+
+msgid "Address"
+msgstr "العنوان"
+
+msgid "Quantity of Contracts"
+msgstr "كمية العقود"
+
+msgid "Paid"
+msgstr "مدفوع"
+
+msgid "Not Paid"
+msgstr "غير مدفوع"
+
+msgid "Total"
+msgstr "الإجمالي"
+
+msgid "Add New Contractor"
+msgstr "إضافة مقاول جديد"
+
+msgid "Create New Department"
+msgstr "إنشاء قسم جديد"
+
+msgid "Description"
+msgstr "الوصف"
+
+msgid "No departments found."
+msgstr "لا توجد أقسام"
+
+msgid "You do not have permission to view this page."
+msgstr "ليس لديك الصلاحية لعرض هذه الصفحة."
+
+msgid "Delete Employee Details"
+msgstr "حذف تفاصيل الموظف"
+
+msgid "Confirm Delete"
+msgstr "تأكيد الحذف"
+
+msgid "Are you sure you want to delete this item?"
+msgstr "هل أنت متأكد من حذف هذا العنصر؟"
+
+msgid "Employee No."
+msgstr "رقم الموظف"
+
+msgid "ID End Date"
+msgstr "تاريخ انتهاء الهوية"
+
+msgid "Add New Employee"
+msgstr "إضافة موظف جديد"
+
+msgid "Iqama ID"
+msgstr "رقم الإقامة"
+
+msgid "Date of Birth"
+msgstr "تاريخ الميلاد"
+
+msgid "Nationality"
+msgstr "الجنسية"
+
+msgid "Passport No."
+msgstr "رقم الجواز"
+
+msgid "Name on Passport"
+msgstr "الاسم على الجواز"
+
+msgid "Phone Number in KSA"
+msgstr "رقم الهاتف في المملكة"
+
+msgid "Relative Name"
+msgstr "اسم قريب"
+
+msgid "Relative Phone Number"
+msgstr "رقم هاتف قريب"
+
+msgid "ID Renew Date"
+msgstr "تاريخ تجديد الهوية"
+
+msgid "Duration"
+msgstr "المدة"
+
+msgid "Attachments"
+msgstr "المرفقات"
+
+msgid "No items found."
+msgstr "لم يتم العثور على عناصر"
+
+msgid "Employee No"
+msgstr "رقم الموظف"
+
+msgid "Passport No"
+msgstr "رقم الجواز"
+
+msgid "No employee details found."
+msgstr "لم يتم العثور على تفاصيل الموظف"
+
+msgid "Delete Item"
+msgstr "حذف العنصر"
+
+msgid "Are you sure you want to delete the item"
+msgstr "هل أنت متأكد من حذف هذا العنصر"
+
+msgid "Add New Item"
+msgstr "إضافة عنصر جديد"
+
+msgid "Item Name"
+msgstr "اسم العنصر"
+
+msgid "Item No."
+msgstr "رقم العنصر"
+
+msgid "Date Received"
+msgstr "تاريخ الاستلام"
+
+msgid "Date Leave"
+msgstr "تاريخ المغادرة"
+
+msgid "Storing Location"
+msgstr "مكان التخزين"
+
+msgid "Quantity"
+msgstr "الكمية"
+
+msgid "Price"
+msgstr "السعر"
+
+msgid "VAT Percentage"
+msgstr "نسبة ضريبة القيمة المضافة"
+
+msgid "Total VAT"
+msgstr "إجمالي ضريبة القيمة المضافة"
+
+msgid "Total Price"
+msgstr "الإجمالي"
+
+msgid "Net Price"
+msgstr "الصافي"
+
+msgid "Serial Number"
+msgstr "الرقم التسلسلي"
+
+msgid "Taken"
+msgstr "مسحوب"
+
+msgid "Available"
+msgstr "متاح"
+
+msgid "Assign Item"
+msgstr "تعيين العنصر"
+
+msgid "Select User"
+msgstr "اختر مستخدم"
+
+msgid "Choose a user"
+msgstr "اختر مستخدمًا"
+
+msgid "Close"
+msgstr "إغلاق"
+
+msgid "Assign"
+msgstr "تعيين"
+
+msgid "Item No"
+msgstr "رقم العنصر"
+
+msgid "Total Items:"
+msgstr "إجمالي العناصر:"
+
+msgid "Title"
+msgstr "العنوان"
+
+msgid "View"
+msgstr "عرض"
+
+msgid "Delete HR Warehouse Item"
+msgstr "حذف عنصر مستودع الموارد البشرية"
+
+msgid "Cars & Equipment"
+msgstr "السيارات والمعدات"
+
+msgid "Date From"
+msgstr "التاريخ من"
+
+msgid "Date To"
+msgstr "التاريخ إلى"
+
+msgid "All Item Types"
+msgstr "جميع أنواع العناصر"
+
+msgid "Item Type"
+msgstr "نوع العنصر"
+
+msgid "Plate Number"
+msgstr "رقم اللوحة"
+
+msgid "Last Checkup Date"
+msgstr "تاريخ الفحص الأخير"
+
+msgid "Duration of Checkup"
+msgstr "مدة الفحص"
+
+msgid "End Checkup Date"
+msgstr "تاريخ انتهاء الفحص"
+
+msgid "License Last Checkup"
+msgstr "أخر فحص لرخصة القيادة"
+
+msgid "Duration of License"
+msgstr "مدة الرخصة"
+
+msgid "End License Date"
+msgstr "تاريخ انتهاء الرخصة"
+
+msgid "Insurance Date Renew"
+msgstr "تاريخ تجديد التأمين"
+
+msgid "Duration of Insurance"
+msgstr "مدة التأمين"
+
+msgid "End Insurance Date"
+msgstr "تاريخ انتهاء التأمين"
+
+msgid "Current Driver"
+msgstr "السائق الحالي"
+
+msgid "Location"
+msgstr "الموقع"
+
+msgid "Car Photo"
+msgstr "صورة السيارة"
+
+msgid "License"
+msgstr "الرخصة"
+
+msgid "Checkup"
+msgstr "الفحص"
+
+msgid "Insurance"
+msgstr "التأمين"
+
+msgid "Driver ID"
+msgstr "هوية السائق"
+
+msgid "Driver License"
+msgstr "رخصة السائق"
+
+msgid "HR Warehouse"
+msgstr "مستودع الموارد البشرية"
+
+msgid "Traffic Violation Price"
+msgstr "سعر المخالفة المرورية"
+
+msgid "Add Note to IT Request"
+msgstr "إضافة ملاحظة لطلب التقنية"
+
+msgid "Note"
+msgstr "ملاحظة"
+
+msgid "Add Note"
+msgstr "إضافة ملاحظة"
+
+msgid "You must be logged in to add a note."
+msgstr "يجب أن تكون مسجلاً للدخول لإضافة ملاحظة."
+
+msgid "Delete Ticket"
+msgstr "حذف التذكرة"
+
+msgid "Are you sure you want to delete the ticket"
+msgstr "هل أنت متأكد من حذف التذكرة"
+
+msgid "Ticket Details"
+msgstr "تفاصيل التذكرة"
+
+msgid "Assigned To"
+msgstr "المسند إلى"
+
+msgid "Applied By"
+msgstr "المقدم من"
+
+msgid "Applied For"
+msgstr "مقدم الطلب لـ"
+
+msgid "No file attached"
+msgstr "لا يوجد ملف مرفق"
+
+msgid "Date Created"
+msgstr "تاريخ الإنشاء"
+
+msgid "Signatures"
+msgstr "التواقيع"
+
+msgid "Timestamp"
+msgstr "الطابع الزمني"
+
+msgid "No signature available"
+msgstr "لا يوجد توقيع"
+
+msgid "No signatures found."
+msgstr "لم يتم العثور على توقيعات"
+
+msgid "Status Updates"
+msgstr "تحديثات الحالة"
+
+msgid "Previous Status"
+msgstr "الحالة السابقة"
+
+msgid "No status updates found."
+msgstr "لم يتم العثور على تحديثات الحالة"
+
+msgid "Sub Request Type"
+msgstr "نوع الطلب الفرعي"
+
+msgid "Assigned to"
+msgstr "مسند إلى"
+
+msgid "Apply for yourself"
+msgstr "قدّم الطلب لنفسك"
+
+msgid "Apply for someone else"
+msgstr "قدّم الطلب لشخص آخر"
+
+msgid "Select Request Type"
+msgstr "اختر نوع الطلب"
+
+msgid "Select Sub Request Type"
+msgstr "اختر نوع الطلب الفرعي"
+
+msgid "Create New Ticket"
+msgstr "إنشاء تذكرة جديدة"
+
+msgid "Search Tickets"
+msgstr "بحث في التذاكر"
+
+msgid "Submitted"
+msgstr "مقدم"
+
+msgid "Closed"
+msgstr "مغلق"
+
+msgid "Select Department"
+msgstr "اختر القسم"
+
+msgid "Ticket No"
+msgstr "رقم التذكرة"
+
+msgid "Date & Time"
+msgstr "التاريخ والوقت"
+
+msgid "Transfer"
+msgstr "تحويل"
+
+msgid "No tickets found."
+msgstr "لم يتم العثور على تذاكر"
+
+msgid "Search Results"
+msgstr "نتائج البحث"
+
+msgid "Reassign"
+msgstr "إعادة التعيين"
+
+msgid "Update Ticket Status"
+msgstr "تحديث حالة التذكرة"
+
+msgid "Delete User"
+msgstr "حذف المستخدم"
+
+msgid "Are you sure you want to delete the user"
+msgstr "هل أنت متأكد من حذف المستخدم"
+
+msgid "Create New User"
+msgstr "إنشاء مستخدم جديد"
+
+msgid "Username"
+msgstr "اسم المستخدم"
+
+msgid "First Name"
+msgstr "الاسم الأول"
+
+msgid "Last Name"
+msgstr "اسم العائلة"
+
+msgid "New ticket created"
+msgstr "تم إنشاء تذكرة جديدة"
+
+msgid "Ticket assigned to you"
+msgstr "تم تعيين التذكرة إليك"
+
+msgid "Ticket status updated"
+msgstr "تم تحديث حالة التذكرة"
+
+msgid "Work permit added successfully!"
+msgstr "تم إضافة تصريح العمل بنجاح!"
+
+msgid "Error adding work permit."
+msgstr "خطأ في إضافة تصريح العمل."
+
+msgid "Add Work Permit"
+msgstr "إضافة تصريح عمل"
+
+msgid "Work permit updated successfully!"
+msgstr "تم تحديث تصريح العمل بنجاح!"
+
+msgid "Error updating work permit."
+msgstr "خطأ في تحديث تصريح العمل."
+
+msgid "Edit Work Permit"
+msgstr "تعديل تصريح العمل"
+
+msgid "Work permit deleted successfully!"
+msgstr "تم حذف تصريح العمل بنجاح!"
+
+msgid "Health and Safety record added successfully!"
+msgstr "تم إضافة سجل الصحة والسلامة بنجاح!"
+
+msgid "Error adding health and safety record."
+msgstr "خطأ في إضافة سجل الصحة والسلامة."
+
+msgid "Add Health and Safety Record"
+msgstr "إضافة سجل الصحة والسلامة"
+
+msgid "Health and Safety record updated successfully!"
+msgstr "تم تحديث سجل الصحة والسلامة بنجاح!"
+
+msgid "Error updating health and safety record."
+msgstr "خطأ في تحديث سجل الصحة والسلامة."
+
+msgid "Edit Health and Safety Record"
+msgstr "تعديل سجل الصحة والسلامة"
+
+msgid "Health and Safety record deleted successfully!"
+msgstr "تم حذف سجل الصحة والسلامة بنجاح!"
+
+msgid "Workshop added successfully!"
+msgstr "تم إضافة ورشة العمل بنجاح!"
+
+msgid "Error adding workshop."
+msgstr "خطأ في إضافة ورشة العمل."
+
+msgid "Add Workshop"
+msgstr "إضافة ورشة عمل"
+
+msgid "Workshop updated successfully!"
+msgstr "تم تحديث ورشة العمل بنجاح!"
+
+msgid "Error updating workshop."
+msgstr "خطأ في تحديث ورشة العمل."
+
+msgid "Edit Workshop"
+msgstr "تعديل ورشة العمل"
+
+msgid "Workshop deleted successfully!"
+msgstr "تم حذف ورشة العمل بنجاح!"
+
+msgid "Sale added successfully!"
+msgstr "تم إضافة عملية بيع بنجاح!"
+
+msgid "Error adding sale."
+msgstr "خطأ في إضافة عملية البيع."
+
+msgid "Add Sale"
+msgstr "إضافة عملية بيع"
+
+msgid "Sale updated successfully!"
+msgstr "تم تحديث عملية البيع بنجاح!"
+
+msgid "Error updating sale."
+msgstr "خطأ في تحديث عملية البيع."
+
+msgid "Edit Sale"
+msgstr "تعديل عملية البيع"
+
+msgid "Sale deleted successfully!"
+msgstr "تم حذف عملية البيع بنجاح!"
+
+msgid "Company clearance processed successfully."
+msgstr "تمت معالجة تصريح الشركة بنجاح."
+
+msgid "Please correct the errors below."
+msgstr "يرجى تصحيح الأخطاء أدناه."
+
+msgid "Start work permit issued successfully."
+msgstr "تم إصدار تصريح بدء العمل بنجاح."
+
+msgid "My Work Permits"
+msgstr "تصاريح عملي"
+
+msgid "Create Start Work Doc"
+msgstr "إنشاء وثيقة بدء العمل"
+
+msgid "Receive Work No"
+msgstr "استلام رقم العمل"
+
+msgid "Profession"
+msgstr "الوظيفة"
+
+msgid "Date Received Work"
+msgstr "تاريخ استلام العمل"
+
+msgid "الحالة"
+msgstr "الحالة"
+
+msgid "Approved/Rejected By"
+msgstr "تمت الموافقة/الرفض بواسطة"
+
+msgid "الإجراءات"
+msgstr "الإجراءات"
+
+msgid "No work permits found."
+msgstr "لم يتم العثور على تصاريح عمل"
+
+msgid "Company Clearance Records"
+msgstr "تصاريح الشركة"
+
+msgid "Create New Clearance"
+msgstr "إنشاء تصريح شركة جديد"
+
+msgid "Employee Name"
+msgstr "اسم الموظف"
+
+msgid "القسم"
+msgstr "القسم"
+
+msgid "National ID/Iqama"
+msgstr "الهوية الوطنية/الإقامة"
+
+msgid "Last Work Day"
+msgstr "آخر يوم عمل"
+
+msgid "Reason"
+msgstr "السبب"
+
+msgid "التواقيع"
+msgstr "التواقيع"
+
+msgid "abdalla elagamy"
+msgstr "عبد الله العلاقمي"
+
+msgid "IT Manager"
+msgstr "مدير تقنية المعلومات"
+
+msgid "28/02/2025"
+msgstr "28/02/2025"
+
+msgid "15/02/2025"
+msgstr "15/02/2025"
+
+msgid "14/02/2025"
+msgstr "14/02/2025"
+
+msgid "Vacation"
+msgstr "إجازة"
+
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+msgid "Approved"
+msgstr "معتمد"
+
+msgid "GM General Manager"
+msgstr "المدير العام"
+
+msgid "and sign"
+msgstr "وقّع"
+
+msgid "open"
+msgstr "مفتوح"
+
+msgid "rejected"
+msgstr "مرفوض"
+
+msgid "accepted"
+msgstr "مقبول"
+
+msgid "completed"
+msgstr "مكتمل"
+
+msgid "approved"
+msgstr "معتمد"
+
+msgid "canceled"
+msgstr "ملغي"
+
+msgid "Start Work"
+msgstr "بدء العمل"
+
+msgid "Start or receive Work"
+msgstr "استلام العمل"
+
+msgid "Company Clearance"
+msgstr "إخلاء طرف "
+

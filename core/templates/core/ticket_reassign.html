@@ -1,0 +1,17 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Reassign Ticket</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="assigned_to">Assign to:</label>
+    <select name="assigned_to" id="assigned_to" class="form-control">
+        {% for user in users %}
+        <option value="{{ user.id }}" {% if ticket.assigned_to == user %}selected{% endif %}>{{ user.username }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary mt-3">Reassign</button>
+</form>
+{% endif %}
+{% endblock %}

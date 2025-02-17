@@ -1,0 +1,102 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}{{ form.instance.pk|yesno:"Edit HR Warehouse Item,Create HR Warehouse Item" }}{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>{{ form.instance.pk|yesno:"Edit HR Warehouse Item,Create HR Warehouse Item" }}</h2>
+    <form method="post" enctype="multipart/form-data" id="hrWarehouseForm">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                {% for field in form %}
+                    {% if field.name not in 'signature_holder signature_department_manager' %}
+                        <tr>
+                            <th>{{ field.label_tag }}</th>
+                            <td>
+                                {% if field.name == 'duration_of_checkup' or field.name == 'duration_of_license' or field.name == 'duration_of_insurance' %}
+                                    <input type="number" name="{{ field.name }}" id="id_{{ field.name }}" class="form-control" min="1" value="{{ field.value|default:'' }}" placeholder="Duration in months">
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+        <a href="{% url 'hr_warehouse_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Date Calculation: Add months instead of days
+        const lastCheckupDateInput = document.getElementById('id_last_checkup_date');
+        const checkupDurationInput = document.getElementById('id_duration_of_checkup');
+        const checkupEndDateInput = document.getElementById('id_end_checkup_date');
+
+        const licenseLastCheckupInput = document.getElementById('id_license_last_checkup');
+        const licenseDurationInput = document.getElementById('id_duration_of_license');
+        const licenseEndDateInput = document.getElementById('id_end_license_date');
+
+        const insuranceDateRenewInput = document.getElementById('id_insurance_date_renew');
+        const insuranceDurationInput = document.getElementById('id_duration_of_insurance');
+        const insuranceEndDateInput = document.getElementById('id_end_insurance_date');
+
+        function calculateEndDate(startDateInput, durationInput, endDateInput) {
+            if (startDateInput.value && durationInput.value) {
+                const startDate = new Date(startDateInput.value);
+                const months = parseInt(durationInput.value, 10); // Parse duration as months
+
+                const endDate = new Date(startDate);
+                // Add months to the start date
+                endDate.setMonth(startDate.getMonth() + months);
+
+                const year = endDate.getFullYear();
+                const month = String(endDate.getMonth() + 1).padStart(2, '0');
+                const day = String(endDate.getDate()).padStart(2, '0');
+
+                endDateInput.value = `${year}-${month}-${day}`;
+            }
+        }
+
+        if (lastCheckupDateInput && checkupDurationInput && checkupEndDateInput) {
+            lastCheckupDateInput.addEventListener('change', () => calculateEndDate(lastCheckupDateInput, checkupDurationInput, checkupEndDateInput));
+            checkupDurationInput.addEventListener('input', () => calculateEndDate(lastCheckupDateInput, checkupDurationInput, checkupEndDateInput));
+            calculateEndDate(lastCheckupDateInput, checkupDurationInput, checkupEndDateInput); // Initial calculation
+        }
+
+        if (licenseLastCheckupInput && licenseDurationInput && licenseEndDateInput) {
+            licenseLastCheckupInput.addEventListener('change', () => calculateEndDate(licenseLastCheckupInput, licenseDurationInput, licenseEndDateInput));
+            licenseDurationInput.addEventListener('input', () => calculateEndDate(licenseLastCheckupInput, licenseDurationInput, licenseEndDateInput));
+            calculateEndDate(licenseLastCheckupInput, licenseDurationInput, licenseEndDateInput); // Initial calculation
+        }
+
+        if (insuranceDateRenewInput && insuranceDurationInput && insuranceEndDateInput) {
+            insuranceDateRenewInput.addEventListener('change', () => calculateEndDate(insuranceDateRenewInput, insuranceDurationInput, insuranceEndDateInput));
+            insuranceDurationInput.addEventListener('input', () => calculateEndDate(insuranceDateRenewInput, insuranceDurationInput, insuranceEndDateInput));
+            calculateEndDate(insuranceDateRenewInput, insuranceDurationInput, insuranceEndDateInput); // Initial calculation
+        }
+
+        // Form Submission Handling (Make calculated end date fields writable for submission)
+        const form = document.getElementById('hrWarehouseForm');
+        form.addEventListener('submit', function(event) {
+            checkupEndDateInput.readOnly = false;
+            licenseEndDateInput.readOnly = false;
+            insuranceEndDateInput.readOnly = false;
+            return true;
+        });
+    });
+</script>
+
+<style>
+    /* ... (Additional CSS styles such as signature styles remain unchanged) */
+</style>
+
+{% endblock %}

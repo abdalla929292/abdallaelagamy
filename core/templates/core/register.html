@@ -1,0 +1,23 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+<h2>Register</h2>
+<div class="table-container">
+    <form method="post" class="form">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                {% for field in form %}
+                    {% if field.name not in 'role position' %}
+                        <tr>
+                            <th>{{ field.label_tag }}</th>
+                            <td>{{ field }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+{% endblock %}

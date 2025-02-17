@@ -1,0 +1,110 @@
+{# templates/core/tickets_pdf.html #}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Tickets" %}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            margin: 0;
+            padding: 15px;
+        }
+        h2 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 6px;
+            text-align: left;
+            word-wrap: break-word;
+            vertical-align: middle;
+        }
+        .signature-cell {
+            text-align: center;
+            height: 40px;
+        }
+        .signature-img {
+            max-width: 60px;
+            max-height: 30px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .status-pending { color: orange; }
+        .status-approved { color: green; }
+        .status-rejected { color: red; }
+        .status-in-progress { color: blue; }
+    </style>
+</head>
+<body>
+    <h2>{% trans "Tickets" %}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th width="5%">{% trans "Ticket No" %}</th>
+                <th width="8%">{% trans "Department" %}</th>
+                <th width="8%">{% trans "Request Type" %}</th>
+                <th width="10%">{% trans "Title" %}</th>
+                <th width="12%">{% trans "Description" %}</th>
+                <th width="8%">{% trans "Applied By" %}</th>
+                <th width="8%">{% trans "Applied For" %}</th>
+                <th width="8%">{% trans "Assigned To" %}</th>
+                <th width="8%">{% trans "Date & Time" %}</th>
+                <th width="6%">{% trans "Status" %}</th>
+                <th width="10%">{% trans "Notes" %}</th>
+                <th width="9%">{% trans "Signatures" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.department.name }}</td>
+                <td>{{ ticket.request_type.name }}</td>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.description|truncatechars:100 }}</td>
+                <td>{{ ticket.get_applied_by_full_name }}</td>
+                <td>{{ ticket.get_applied_for_full_name }}</td>
+                <td>{{ ticket.get_assigned_to_full_name }}</td>
+                <td>{{ ticket.date_created|date:"Y-m-d H:i" }}</td>
+                <td class="status-{{ ticket.status|lower }}">{{ ticket.get_status_display }}</td>
+                <td>{{ ticket.notes|default:"-"|truncatechars:50 }}</td>
+                <td class="signature-cell">
+                    {% if ticket.signatures.all %}
+                        {% for signature in ticket.signatures.all %}
+                            {% if signature.image_data %}
+                                <img src="{{ signature.image_data }}" 
+                                     alt="Signature" 
+                                     class="signature-img"/>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% trans "N/A" %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="font-size:8px; text-align:right; margin-top:20px;">
+        {% trans "Generated on" %}: {% now "Y-m-d H:i" %}
+    </div>
+</body>
+</html>

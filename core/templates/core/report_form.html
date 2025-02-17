@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container">
+    <h2>{% trans "Generate Report" %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+            <label for="filter_person">{% trans "Filter by Person" %}</label>
+            <select name="filter_person" id="filter_person" class="form-control">
+                <option value="">{% trans "All" %}</option>
+                {% for user in form.fields.filter_person.queryset %}
+                    <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">{% trans "Generate" %}</button>
+    </form>
+</div>
+{% endblock %}

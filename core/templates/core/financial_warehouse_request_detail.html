@@ -1,0 +1,46 @@
+{% extends 'base_form.html' %}
+
+{% block content %}
+<h2>Financial Warehouse Request Detail</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <td>{{ request_obj.id }}</td>
+    </tr>
+    <tr>
+        <th>Item</th>
+        <td>{{ request_obj.item }}</td>
+    </tr>
+    <tr>
+        <th>Requested Quantity</th>
+        <td>{{ request_obj.requested_quantity }}</td>
+    </tr>
+    <tr>
+        <th>Date</th>
+        <td>{{ request_obj.date_created }}</td>
+    </tr>
+    <tr>
+        <th>Using Location</th>
+        <td>{{ request_obj.using_location }}</td>
+    </tr>
+    <tr>
+        <th>Reason for Leaving</th>
+        <td>{{ request_obj.reason_for_leaving }}</td>
+    </tr>
+    <tr>
+        <th>Request Use</th>
+        <td>{{ request_obj.request_use }}</td>
+    </tr>
+    <tr>
+        <th>Applied By</th>
+        <td>{{ request_obj.applied_by }}</td>
+    </tr>
+    <tr>
+        <th>Signature</th>
+        <td><img src="{{ request_obj.signature.url }}" alt="Signature" /></td>
+    </tr>
+</table>
+<a href="{% url 'financial_warehouse_request_list' %}" class="btn btn-secondary">Back to list</a>
+<a href="{% url 'financial_warehouse_request_update' request_obj.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'financial_warehouse_request_delete' request_obj.id %}" class="btn btn-danger">Delete</a>
+{% endblock %}

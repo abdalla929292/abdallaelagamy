@@ -1,0 +1,202 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block content %}
+<div class="table-container">
+   <h2 class="mb-3">{% trans "My Work Permits" %}</h2>
+
+   <!-- Action Buttons (Create Work Permit & Export PDF) -->
+   <div class="action-buttons mb-4 d-flex justify-content-between">
+       <div class="left-side">
+           <a href="{% url 'start_work_permit_create' %}" class="btn-custom">
+               {% trans "Create Start Work Doc" %}
+           </a>
+       </div>
+       <div class="right-side">
+           {% if user.is_staff or user.is_superuser %}
+               <a href="{% url 'export_work_permit_pdf' %}" class="btn btn-secondary">
+                   {% trans "Export as PDF" %}
+               </a>
+           {% endif %}
+       </div>
+   </div>
+
+   <!-- Work Permit List Table -->
+   <div class="table-responsive">
+       <table class="table table-bordered table-striped text-center align-middle">
+           <thead>
+               <tr>
+                   <th>{% trans "Receive Work No" %}</th>
+                   <th>{% trans "Profession" %}</th>
+                   <th>{% trans "Date Received Work" %}</th>
+                   <th class="status-header">{% trans "Status" %}</th>
+                   <th>{% trans "Approved/Rejected By" %}</th>
+                   <th class="action-header">{% trans "Actions" %}</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for permit in permits %}
+               <tr>
+                   <td>{{ permit.id }}</td>
+                   <td>{{ permit.profession }}</td>
+                   <td>{{ permit.start_date|date:"d/m/Y" }}</td>
+                   <td class="status-cell">
+                       <div class="status-wrapper">
+                           <span class="btn btn-status btn-status-{{ permit.status|lower }}">
+                               {{ permit.get_status_display }}
+                           </span>
+                       </div>
+                   </td>
+                   <td>
+                       {% if permit.approved_by %}
+                           {{ permit.approved_by.get_full_name }}
+                       {% else %}
+                           <span class="text-muted">{% trans "Pending" %}</span>
+                       {% endif %}
+                   </td>
+                   <td class="action-cell">
+                       <div class="btn-group">
+                           {% if user.is_staff or user.is_superuser %}
+                               {% if permit.status == "Pending" %}
+                                   <form method="post" action="{% url 'update_work_permit_status' permit.pk %}" class="d-inline">
+                                       {% csrf_token %}
+                                       <select name="status" class="form-select form-select-sm d-inline w-auto">
+                                           <option value="Pending" {% if permit.status == "Pending" %}selected{% endif %}>
+                                               Pending
+                                           </option>
+                                           <option value="Approved" {% if permit.status == "Approved" %}selected{% endif %}>
+                                               Approved
+                                           </option>
+                                           <option value="Rejected" {% if permit.status == "Rejected" %}selected{% endif %}>
+                                               Rejected
+                                           </option>
+                                       </select>
+                                       <button type="submit" class="btn btn-success btn-sm">
+                                           {% trans "Save" %}
+                                       </button>
+                                   </form>
+                               {% else %}
+                                   <span class="text-muted">{% trans "Locked" %}</span>
+                               {% endif %}
+                           {% endif %}
+                       </div>
+                   </td>
+               </tr>
+               {% empty %}
+               <tr>
+                   <td colspan="6" class="text-center">{% trans "No work permits found." %}</td>
+               </tr>
+               {% endfor %}
+           </tbody>
+       </table>
+   </div>
+</div>
+
+<!-- CSS Styling -->
+<style>
+/* Center-align table content */
+.table {
+    text-align: center;
+}
+
+/* Left Side (Create New Button) */
+.left-side {
+   width: 200px;
+   height: 50px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border: 1px solid #007bff;
+}
+
+/* Create New Work Permit Button */
+.btn-custom {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: #007bff;
+   color: #fff;
+   text-decoration: none;
+   border: none;
+   font-size: 16px;
+   font-weight: bold;
+   cursor: pointer;
+}
+
+/* Right Side (Export Button) */
+.action-buttons .right-side {
+   display: flex;
+   gap: 8px;
+}
+
+.btn-secondary {
+   height: 35px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+/* Status Column Centering */
+.status-header, .action-header {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.status-cell {
+   text-align: center;
+   vertical-align: middle;
+   padding: 10px;
+}
+
+/* Status Button - Centered */
+.status-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Status Labels */
+.btn-status {
+   width: 120px;
+   height: 35px;
+   text-align: center;
+   font-size: 12px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border: none;
+   border-radius: 5px;
+   font-weight: bold;
+}
+
+/* Status Colors */
+.btn-status-pending { background-color: #ffc107; color: #212529; }
+.btn-status-approved { background-color: #28a745; color: white; }
+.btn-status-rejected { background-color: #dc3545; color: white; }
+.btn-status-other { background-color: #6c757d; color: white; }
+
+/* Action Buttons (Center-Aligned) */
+.action-cell {
+   text-align: center;
+   vertical-align: middle;
+}
+
+.btn-group {
+   display: flex;
+   justify-content: center;
+   gap: 8px;
+}
+
+.btn-group .btn {
+   padding: 5px 10px;
+   font-size: 12px;
+   height: 30px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        {% trans "Edit Financial Warehouse Item" %}
+    {% else %}
+        {% trans "Create Financial Warehouse Item" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2 class="mb-3">
+        {% if form.instance.pk %}
+            {% trans "Edit Financial Warehouse Item" %}
+        {% else %}
+            {% trans "Create Financial Warehouse Item" %}
+        {% endif %}
+    </h2>
+    <form method="post" enctype="multipart/form-data" class="form">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                {% for field in form %}
+                    <tr>
+                        <th>{{ field.label_tag }}</th>
+                        <td>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <span class="help-text">{{ field.help_text }}</span>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                <!-- Hidden input for signature data -->
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" id="signature-input" name="signature">
+                        <canvas id="signature-pad" style="border:1px solid #000; width: 400px; height: 200px;"></canvas>
+                        <div class="mt-2">
+                            <button type="button" id="clear" class="btn btn-warning btn-sm">{% trans "Clear Signature" %}</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary" onclick="saveSignature()">{% trans "Save" %}</button>
+            <a href="{% url 'financial_warehouse_list' %}" class="btn btn-secondary ml-2">{% trans "Cancel" %}</a>
+        </div>
+    </form>
+</div>
+
+<!-- Include SignaturePad from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find the canvas element
+        const canvas = document.getElementById("signature-pad");
+        // Adjust canvas size if needed
+        canvas.width = 400;
+        canvas.height = 200;
+        // Create the signature pad instance
+        const signaturePad = new SignaturePad(canvas);
+
+        // Clear button functionality
+        document.getElementById('clear').addEventListener('click', function() {
+            signaturePad.clear();
+        });
+
+        // Function to save signature data into the hidden input field
+        window.saveSignature = function() {
+            if (!signaturePad.isEmpty()) {
+                const dataURL = signaturePad.toDataURL();
+                document.getElementById('signature-input').value = dataURL;
+            }
+        }
+    });
+</script>
+{% endblock %}

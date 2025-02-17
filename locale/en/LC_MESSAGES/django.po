@@ -1,0 +1,1011 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-13 16:13+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "English"
+msgstr ""
+
+msgid "Arabic"
+msgstr ""
+
+msgid "Item With"
+msgstr ""
+
+msgid "Received From"
+msgstr ""
+
+msgid "National ID"
+msgstr ""
+
+msgid "Enter your National ID number"
+msgstr ""
+
+msgid "Roles"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Department"
+msgstr ""
+
+msgid ""
+"The groups this user belongs to. A user will get all permissions granted to "
+"each of their groups."
+msgstr ""
+
+msgid "groups"
+msgstr ""
+
+msgid "Specific permissions for this user."
+msgstr ""
+
+msgid "user permissions"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Delete Administrative Request"
+msgstr ""
+
+msgid "Are you sure you want to delete the administrative request for"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Electronic Signature (Employee)"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Export as Excel"
+msgstr ""
+
+msgid "Export as PDF"
+msgstr ""
+
+msgid "Administrative Requests"
+msgstr ""
+
+msgid "Add New Request"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Request No."
+msgstr ""
+
+msgid "Company"
+msgstr ""
+
+msgid "Request Type"
+msgstr ""
+
+msgid "Explanation of Request"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Signature"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Manager Approval"
+msgstr ""
+
+msgid "GM Approval"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "No signature"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Accepted"
+msgstr ""
+
+msgid "Rejected"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "No requests found."
+msgstr ""
+
+msgid "Request No"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Explanation"
+msgstr ""
+
+msgid "Manager Status"
+msgstr ""
+
+msgid "GM Status"
+msgstr ""
+
+msgid "Generated on"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Tickets"
+msgstr ""
+
+msgid "IT Request"
+msgstr ""
+
+msgid "IT Warehouse"
+msgstr ""
+
+msgid "Employee Details"
+msgstr ""
+
+msgid "Cars and Heavy Equip"
+msgstr ""
+
+msgid "Financial Warehouse"
+msgstr ""
+
+msgid "Departments"
+msgstr ""
+
+msgid "Request Types"
+msgstr ""
+
+msgid "Positions"
+msgstr ""
+
+msgid "Company Settings"
+msgstr ""
+
+msgid "Change Password"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Developed by Abdalla Elagamy, IT Manager"
+msgstr ""
+
+msgid "Back to list"
+msgstr ""
+
+msgid "Company Choices"
+msgstr ""
+
+msgid "Add New Company Choice"
+msgstr ""
+
+msgid "No company choices added yet."
+msgstr ""
+
+msgid "Delete Company Clearance"
+msgstr ""
+
+msgid "Are you sure you want to delete the company clearance for"
+msgstr ""
+
+msgid "Company Clearances"
+msgstr ""
+
+msgid "Project/Department"
+msgstr ""
+
+msgid "National ID/Iqama No."
+msgstr ""
+
+msgid "Today Date"
+msgstr ""
+
+msgid "Last Day of Work"
+msgstr ""
+
+msgid "Leaving Reasons"
+msgstr ""
+
+msgid "Management Signatures"
+msgstr ""
+
+msgid "Add New Clearance"
+msgstr ""
+
+msgid "Delete Contractor"
+msgstr ""
+
+msgid "Are you sure you want to delete the contractor"
+msgstr ""
+
+msgid "Contractors"
+msgstr ""
+
+msgid "Gov Registration Number"
+msgstr ""
+
+msgid "Tax Number"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Phone Number"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "Quantity of Contracts"
+msgstr ""
+
+msgid "Paid"
+msgstr ""
+
+msgid "Not Paid"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Add New Contractor"
+msgstr ""
+
+msgid "Create New Department"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "No departments found."
+msgstr ""
+
+msgid "You do not have permission to view this page."
+msgstr ""
+
+msgid "Delete Employee Details"
+msgstr ""
+
+msgid "Confirm Delete"
+msgstr ""
+
+msgid "Are you sure you want to delete this item?"
+msgstr ""
+
+msgid "Employee No."
+msgstr ""
+
+msgid "ID End Date"
+msgstr ""
+
+msgid "Add New Employee"
+msgstr ""
+
+msgid "Iqama ID"
+msgstr ""
+
+msgid "Date of Birth"
+msgstr ""
+
+msgid "Nationality"
+msgstr ""
+
+msgid "Passport No."
+msgstr ""
+
+msgid "Name on Passport"
+msgstr ""
+
+msgid "Phone Number in KSA"
+msgstr ""
+
+msgid "Relative Name"
+msgstr ""
+
+msgid "Relative Phone Number"
+msgstr ""
+
+msgid "ID Renew Date"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "Attachments"
+msgstr ""
+
+msgid "No items found."
+msgstr ""
+
+msgid "Employee No"
+msgstr ""
+
+msgid "Passport No"
+msgstr ""
+
+msgid "No employee details found."
+msgstr ""
+
+msgid "Delete Item"
+msgstr ""
+
+msgid "Are you sure you want to delete the item"
+msgstr ""
+
+msgid "Add New Item"
+msgstr ""
+
+msgid "Item Name"
+msgstr ""
+
+msgid "Item No."
+msgstr ""
+
+msgid "Date Received"
+msgstr ""
+
+msgid "Date Leave"
+msgstr ""
+
+msgid "Storing Location"
+msgstr ""
+
+msgid "Quantity"
+msgstr ""
+
+msgid "Price"
+msgstr ""
+
+msgid "VAT Percentage"
+msgstr ""
+
+msgid "Total VAT"
+msgstr ""
+
+msgid "Total Price"
+msgstr ""
+
+msgid "Net Price"
+msgstr ""
+
+msgid "Serial Number"
+msgstr ""
+
+msgid "Taken"
+msgstr ""
+
+msgid "Available"
+msgstr ""
+
+msgid "Assign Item"
+msgstr ""
+
+msgid "Select User"
+msgstr ""
+
+msgid "Choose a user"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Assign"
+msgstr ""
+
+msgid "Item No"
+msgstr ""
+
+msgid "Total Items:"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Delete HR Warehouse Item"
+msgstr ""
+
+msgid "Cars & Equipment"
+msgstr ""
+
+msgid "Date From"
+msgstr ""
+
+msgid "Date To"
+msgstr ""
+
+msgid "All Item Types"
+msgstr ""
+
+msgid "Item Type"
+msgstr ""
+
+msgid "Plate Number"
+msgstr ""
+
+msgid "Last Checkup Date"
+msgstr ""
+
+msgid "Duration of Checkup"
+msgstr ""
+
+msgid "End Checkup Date"
+msgstr ""
+
+msgid "License Last Checkup"
+msgstr ""
+
+msgid "Duration of License"
+msgstr ""
+
+msgid "End License Date"
+msgstr ""
+
+msgid "Insurance Date Renew"
+msgstr ""
+
+msgid "Duration of Insurance"
+msgstr ""
+
+msgid "End Insurance Date"
+msgstr ""
+
+msgid "Current Driver"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "Car Photo"
+msgstr ""
+
+msgid "License"
+msgstr ""
+
+msgid "Checkup"
+msgstr ""
+
+msgid "Insurance"
+msgstr ""
+
+msgid "Driver ID"
+msgstr ""
+
+msgid "Driver License"
+msgstr ""
+
+msgid "HR Warehouse"
+msgstr ""
+
+msgid "Traffic Violation Price"
+msgstr ""
+
+msgid "Add Note to IT Request"
+msgstr ""
+
+msgid "Save Note"
+msgstr ""
+
+msgid "Delete IT Request"
+msgstr ""
+
+msgid "IT Requests"
+msgstr ""
+
+msgid "Search Requests"
+msgstr ""
+
+msgid "IT Request Type"
+msgstr ""
+
+msgid "Date Applied"
+msgstr ""
+
+msgid "Priority"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Canceled"
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Update Request Status"
+msgstr ""
+
+msgid "Current Status"
+msgstr ""
+
+msgid "New Status"
+msgstr ""
+
+msgid "Select Status"
+msgstr ""
+
+msgid "Update Status"
+msgstr ""
+
+msgid "No IT requests found."
+msgstr ""
+
+msgid "Delete IT Warehouse Item"
+msgstr ""
+
+msgid "Are you sure you want to delete the IT warehouse item with Item No."
+msgstr ""
+
+msgid "Back to List"
+msgstr ""
+
+msgid "Employee Signature (Item With)"
+msgstr ""
+
+msgid "Waiting for Employee Signature"
+msgstr ""
+
+msgid "Department Manager Signature"
+msgstr ""
+
+msgid "Waiting for Manager Approval"
+msgstr ""
+
+msgid "Model Name"
+msgstr ""
+
+msgid "Condition"
+msgstr ""
+
+msgid "Given By"
+msgstr ""
+
+msgid "Qty"
+msgstr ""
+
+msgid "Serial No."
+msgstr ""
+
+msgid "Date Given"
+msgstr ""
+
+msgid "Attachment"
+msgstr ""
+
+msgid "Employee Signature"
+msgstr ""
+
+msgid "Manager Signature"
+msgstr ""
+
+msgid "No Attachment"
+msgstr ""
+
+msgid "No Signature"
+msgstr ""
+
+msgid "IT Warehouse Requests"
+msgstr ""
+
+msgid "Item Model Name"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "N/A"
+msgstr ""
+
+msgid "No IT Warehouse items found."
+msgstr ""
+
+msgid "IT Warehouse Item Details"
+msgstr ""
+
+msgid "Signature Holder"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Delete Possession"
+msgstr ""
+
+msgid "My Possessions"
+msgstr ""
+
+msgid "No."
+msgstr ""
+
+msgid "Date Returned"
+msgstr ""
+
+msgid "Attachment Paper"
+msgstr ""
+
+msgid "Attachment Item Condition"
+msgstr ""
+
+msgid "Signature of Receiving"
+msgstr ""
+
+msgid "Add New Possession"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "No notifications"
+msgstr ""
+
+msgid "Create New Position"
+msgstr ""
+
+msgid "Sub-Positions"
+msgstr ""
+
+msgid "Add Sub"
+msgstr ""
+
+msgid "Delete Sub"
+msgstr ""
+
+msgid "No positions found."
+msgstr ""
+
+msgid "Are you sure you want to delete this request type?"
+msgstr ""
+
+msgid "Create New Request Type"
+msgstr ""
+
+msgid "Sub-Request Types"
+msgstr ""
+
+msgid "Delete Role"
+msgstr ""
+
+msgid "Confirm Deletion"
+msgstr ""
+
+msgid "Are you sure you want to delete this role?"
+msgstr ""
+
+msgid "Create New Rule"
+msgstr ""
+
+msgid "Are you sure you want to delete this sub position?"
+msgstr ""
+
+msgid "Main Position"
+msgstr ""
+
+msgid "Sub Position Name"
+msgstr ""
+
+msgid "Are you sure you want to delete this sub request type?"
+msgstr ""
+
+msgid "Main Request Type"
+msgstr ""
+
+msgid "Sub Request Name"
+msgstr ""
+
+msgid "Delete Technical Office Storage Item"
+msgstr ""
+
+msgid ""
+"Are you sure you want to delete the technical office storage item with No."
+msgstr ""
+
+msgid "Technical Office Storage"
+msgstr ""
+
+msgid "Search Files"
+msgstr ""
+
+msgid "File Type"
+msgstr ""
+
+msgid "Add New File"
+msgstr ""
+
+msgid "File Name"
+msgstr ""
+
+msgid "Date Receiving Apply"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+msgid "Notes for Approval or Rejection"
+msgstr ""
+
+msgid "Add Note to Ticket"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "Add Note"
+msgstr ""
+
+msgid "You must be logged in to add a note."
+msgstr ""
+
+msgid "Delete Ticket"
+msgstr ""
+
+msgid "Are you sure you want to delete the ticket"
+msgstr ""
+
+msgid "Ticket Details"
+msgstr ""
+
+msgid "Assigned To"
+msgstr ""
+
+msgid "Applied By"
+msgstr ""
+
+msgid "Applied For"
+msgstr ""
+
+msgid "No file attached"
+msgstr ""
+
+msgid "Date Created"
+msgstr ""
+
+msgid "Signatures"
+msgstr ""
+
+msgid "Timestamp"
+msgstr ""
+
+msgid "No signature available"
+msgstr ""
+
+msgid "No signatures found."
+msgstr ""
+
+msgid "Status Updates"
+msgstr ""
+
+msgid "Previous Status"
+msgstr ""
+
+msgid "No status updates found."
+msgstr ""
+
+msgid "Sub Request Type"
+msgstr ""
+
+msgid "Assigned to"
+msgstr ""
+
+msgid "Apply for yourself"
+msgstr ""
+
+msgid "Apply for someone else"
+msgstr ""
+
+msgid "Select Request Type"
+msgstr ""
+
+msgid "Select Sub Request Type"
+msgstr ""
+
+msgid "Create New Ticket"
+msgstr ""
+
+msgid "Search Tickets"
+msgstr ""
+
+msgid "Submitted"
+msgstr ""
+
+msgid "Closed"
+msgstr ""
+
+msgid "Select Department"
+msgstr ""
+
+msgid "Ticket No"
+msgstr ""
+
+msgid "Date & Time"
+msgstr ""
+
+msgid "Transfer"
+msgstr ""
+
+msgid "No tickets found."
+msgstr ""
+
+msgid "Search Results"
+msgstr ""
+
+msgid "Reassign"
+msgstr ""
+
+msgid "Update Ticket Status"
+msgstr ""
+
+msgid "Delete User"
+msgstr ""
+
+msgid "Are you sure you want to delete the user"
+msgstr ""
+
+msgid "Create New User"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "First Name"
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "New ticket created"
+msgstr ""
+
+msgid "Ticket assigned to you"
+msgstr ""
+
+msgid "Ticket status updated"
+msgstr ""
+
+msgid "Work permit added successfully!"
+msgstr ""
+
+msgid "Error adding work permit."
+msgstr ""
+
+msgid "Add Work Permit"
+msgstr ""
+
+msgid "Work permit updated successfully!"
+msgstr ""
+
+msgid "Error updating work permit."
+msgstr ""
+
+msgid "Edit Work Permit"
+msgstr ""
+
+msgid "Work permit deleted successfully!"
+msgstr ""
+
+msgid "Health and Safety record added successfully!"
+msgstr ""
+
+msgid "Error adding health and safety record."
+msgstr ""
+
+msgid "Add Health and Safety Record"
+msgstr ""
+
+msgid "Health and Safety record updated successfully!"
+msgstr ""
+
+msgid "Error updating health and safety record."
+msgstr ""
+
+msgid "Edit Health and Safety Record"
+msgstr ""
+
+msgid "Health and Safety record deleted successfully!"
+msgstr ""
+
+msgid "Workshop added successfully!"
+msgstr ""
+
+msgid "Error adding workshop."
+msgstr ""
+
+msgid "Add Workshop"
+msgstr ""
+
+msgid "Workshop updated successfully!"
+msgstr ""
+
+msgid "Error updating workshop."
+msgstr ""
+
+msgid "Edit Workshop"
+msgstr ""
+
+msgid "Workshop deleted successfully!"
+msgstr ""
+
+msgid "Sale added successfully!"
+msgstr ""
+
+msgid "Error adding sale."
+msgstr ""
+
+msgid "Add Sale"
+msgstr ""
+
+msgid "Sale updated successfully!"
+msgstr ""
+
+msgid "Error updating sale."
+msgstr ""
+
+msgid "Edit Sale"
+msgstr ""
+
+msgid "Sale deleted successfully!"
+msgstr ""
+
+msgid "Company clearance processed successfully."
+msgstr ""
+
+msgid "Please correct the errors below."
+msgstr ""
+
+msgid "Start work permit issued successfully."
+msgstr ""

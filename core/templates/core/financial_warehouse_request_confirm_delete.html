@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Delete Financial Warehouse Request</h2>
+<p>Are you sure you want to delete this request?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a href="{% url 'financial_warehouse_request_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

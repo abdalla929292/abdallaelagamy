@@ -1,0 +1,15 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}{{ form.instance.pk|yesno:"Delete Financial Warehouse Item,Confirm Delete Financial Warehouse Item" }}{% endblock %}
+{% block content %}
+<div class="table-container">
+    <h2>{% trans "Delete Item" %}</h2>
+    <p>{% trans "Are you sure you want to delete the item" %} "{{ item.item_name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">{% trans "Confirm" %}</button>
+        <a href="{% url 'financial_warehouse_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+{% endblock %}

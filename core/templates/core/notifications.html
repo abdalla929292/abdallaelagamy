@@ -1,0 +1,32 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{% if LANGUAGE_CODE == 'ar' %}ar{% else %}en{% endif %}">
+<html dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Notifications" %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">{% trans "Notifications" %}</h1>
+        <ul class="list-group">
+            {% if notifications %}
+                {% for notification in notifications %}
+                    <li class="list-group-item">
+                        <a href="{{ notification.url }}">{{ notification.message }}</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item text-center">{% trans "No notifications" %}</li>
+            {% endif %}
+        </ul>
+    </div>
+</body>
+</html>

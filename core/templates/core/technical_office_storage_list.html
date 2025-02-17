@@ -1,0 +1,81 @@
+<!-- technical_office_storage_list.html -->
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'export_technical_office_storage_to_excel' %}" class="btn btn-secondary mr-2">{% trans "Export as Excel" %}</a>
+    <a href="{% url 'export_technical_office_storage_to_pdf' %}" class="btn btn-secondary mr-2">{% trans "Export as PDF" %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>{% trans "Technical Office Storage" %}</h2>
+    <form class="search-form form-inline mb-3" method="get" action="{% url 'technical_office_storage_list' %}">
+        <input class="form-control mr-2" type="search" name="q" placeholder="{% trans "Search Files" %}" aria-label="Search" value="{{ request.GET.q }}">
+        <input class="form-control mr-2" type="date" name="date_from" placeholder="{% trans "Date From" %}" value="{{ request.GET.date_from }}">
+        <input class="form-control mr-2" type="date" name="date_to" placeholder="{% trans "Date To" %}" value="{{ request.GET.date_to }}">
+        <input class="form-control mr-2" type="text" name="file_type" placeholder="{% trans "File Type" %}" value="{{ request.GET.file_type }}">
+        <button class="btn btn-outline-success" type="submit">{% trans "Search" %}</button>
+    </form>
+    <a href="{% url 'technical_office_storage_create' %}" class="btn btn-success mb-3">{% trans "Add New File" %}</a>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>{% trans "No." %}</th>
+                <th>{% trans "File Type" %}</th>
+                <th>{% trans "File Name" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Location" %}</th>
+                <th>{% trans "Date Applied" %}</th>
+                <th>{% trans "Date Receiving Apply" %}</th>
+                <th>{% trans "Code" %}</th>
+                <th>{% trans "Notes for Approval or Rejection" %}</th>
+                <th>{% trans "Attachment" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.no }}</td>
+                <td>{{ item.file_type }}</td>
+                <td>{{ item.file_name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.location }}</td>
+                <td>{{ item.date_applied }}</td>
+                <td>{{ item.date_receiving_apply }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.notes_for_approval_or_rejection }}</td>
+                <td>{{ item.attachment }}</td>
+                <td>
+                    <a href="{% url 'technical_office_storage_update' item.pk %}" class="btn btn-warning btn-sm">{% trans "Edit" %}</a>
+                    <a href="{% url 'technical_office_storage_delete' item.pk %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+function filterTable(columnIndex) {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("filterInput" + columnIndex);
+    filter = input.value.toUpperCase();
+    table = document.querySelector(".table");
+    tr = table.getElementsByTagName("tr");
+    for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[columnIndex];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "IT Requests" %}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            margin: 0;
+            padding: 15px;
+        }
+        h2 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 6px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h2>{% trans "IT Requests" %}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "Request No." %}</th>
+                <th>{% trans "Title" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "IT Request Type" %}</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Date Applied" %}</th>
+                <th>{% trans "Priority" %}</th>
+                <th>{% trans "Notes" %}</th>
+                <th>{% trans "Status" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in it_requests %}
+            <tr>
+                <td>{{ item.request_no }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.it_request_type }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.date_applied|date:"Y-m-d" }}</td>
+                <td>{{ item.priority }}</td>
+                <td>{{ item.notes|default:"-" }}</td>
+                <td>{{ item.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">{% trans "No IT requests found." %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="font-size:8px; text-align:right; margin-top:20px;">
+        {% trans "Generated on" %}: {% now "Y-m-d H:i" %}
+    </div>
+</body>
+</html>

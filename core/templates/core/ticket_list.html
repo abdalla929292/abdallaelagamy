@@ -1,0 +1,262 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'export_tickets_to_pdf' %}" class="btn btn-secondary">{% trans "Export as PDF" %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<style>
+/* Status button styles */
+.btn-status-open {
+    background-color: #007bff;
+    width: 80px;
+    height: 35px;
+    padding: 3px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.btn-status-submitted {
+    background-color: #ffc107;
+    width: 80px;
+    height: 35px;
+    padding: 3px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.btn-status-in-progress {
+    background-color: #3a7465;
+    width: 80px;
+    height: 35px;
+    padding: 3px;
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.btn-status-rejected {
+    background-color: #dc3545;
+    width: 80px;
+    height: 35px;
+    padding: 3px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.btn-status-accepted {
+    background-color: #076e07;
+    width: 80px;
+    height: 35px;
+    padding: 3px;
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.btn-status-canceled {
+    background-color: #264b5d;
+    width: 80px;
+    height: 35px;
+    padding: 3px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Custom styling for the Create New Ticket button */
+.left-side {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #007bff;
+}
+
+.btn-custom {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
+    word-wrap: break-word;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Attachment button styles */
+.attachment-btn {
+    width: auto;
+    min-width: 70px;
+    white-space: nowrap;
+    display: inline-block;
+    margin: 2px;
+    padding: 4px 8px;
+}
+</style>
+
+{% if user.is_authenticated %}
+<div class="table-container">
+    <h2 class="mb-3">{% trans "Tickets" %}</h2>
+    
+    <!-- Create Ticket Button -->
+    <div class="d-flex mb-4">
+        <div class="left-side">
+            <a href="{% url 'ticket_create' %}" class="btn-custom">
+                {% trans "Create New Ticket" %}
+            </a>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        {% if user.is_staff or user.is_superuser %}
+        <a href="{% url 'export_tickets_to_pdf' %}" class="btn btn-secondary mr-2">
+            {% trans "Export as PDF" %}
+        </a>
+        {% endif %}
+    </div>  
+    
+    <!-- Search Form -->
+    <form class="search-form form-inline mb-3" method="get" action="{% url 'ticket_list' %}">
+        <input class="form-control mr-2" type="search" name="search" placeholder="{% trans "Search Tickets" %}" aria-label="Search" value="{{ request.GET.search }}">
+        <input class="form-control mr-2" type="date" name="date_from" placeholder="{% trans "Date From" %}" value="{{ request.GET.date_from }}">
+        <input class="form-control mr-2" type="date" name="date_to" placeholder="{% trans "Date To" %}" value="{{ request.GET.date_to }}">
+        <select class="form-control mr-2" name="status">
+            <option value="">{% trans "Select Status" %}</option>
+            <option value="open" {% if request.GET.status == "open" %}selected{% endif %}>{% trans "Open" %}</option>
+            <option value="submitted" {% if request.GET.status == "submitted" %}selected{% endif %}>{% trans "Submitted" %}</option>
+            <option value="closed" {% if request.GET.status == "closed" %}selected{% endif %}>{% trans "Closed" %}</option>
+        </select>
+        <select class="form-control mr-2" name="department">
+            <option value="">{% trans "Select Department" %}</option>
+            {% for department in departments %}
+            <option value="{{ department.id }}" {% if request.GET.department == department.id|stringformat:"s" %}selected{% endif %}>{{ department.name }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-outline-success" type="submit">{% trans "Search" %}</button>
+    </form>
+
+    <div class="table-container">
+        <table class="table table-bordered table-striped">
+            <!-- Table headers remain the same -->
+            <thead>
+                <tr>
+                    <th>{% trans "Ticket No" %}</th>
+                    <th>{% trans "Department" %}</th>
+                    <th>{% trans "Request Type" %}</th>
+                    <th>{% trans "Title" %}</th>
+                    <th>{% trans "Description" %}</th>
+                    <th>{% trans "Applied By" %}</th>
+                    {% if user.is_staff or user.is_superuser %}
+                    <th>{% trans "Applied For" %}</th>
+                    <th>{% trans "Assigned To" %}</th>
+                    {% endif %}
+                    <th>{% trans "Date & Time" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    {% if user.is_staff or user.is_superuser %}
+                    <th>{% trans "Notes" %}</th>
+                    <th>{% trans "Attachment" %}</th>
+                    <th>{% trans "Signature" %}</th>
+                    {% endif %}
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody id="ticketTableBody">
+                {% for ticket in tickets %}
+                <tr>
+                    <!-- Previous columns remain the same -->
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.department.name }}</td>
+                    <td>{{ ticket.request_type.name }}</td>
+                    <td>{{ ticket.title }}</td>
+                    <td>{{ ticket.description }}</td>
+                    <td>{{ ticket.get_applied_by_full_name }}</td>
+                    {% if user.is_staff or user.is_superuser %}
+                    <td>{{ ticket.get_applied_for_full_name }}</td>
+                    <td>{{ ticket.get_assigned_to_full_name }}</td>
+                    {% endif %}
+                    <td>{{ ticket.date_created|date:"l, d/m/Y h:i A" }}</td>
+                    <td>
+                        {% if ticket.status == 'open' %}
+                            <span class="btn btn-status btn-status-open">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'submitted' %}
+                            <span class="btn btn-status btn-status-submitted">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'in_progress' %}
+                            <span class="btn btn-status btn-status-in-progress">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'rejected' %}
+                            <span class="btn btn-status btn-status-rejected">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'accepted' %}
+                            <span class="btn btn-status btn-status-accepted">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'canceled' %}
+                            <span class="btn btn-status btn-status-canceled">{{ ticket.get_status_display }}</span>
+                        {% else %}
+                            <span class="btn btn-status btn-status-accepted">{{ ticket.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    {% if user.is_staff or user.is_superuser %}
+                    <td>{{ ticket.notes }}</td>
+                    <td>
+                        {% if ticket.attachment %}
+                            <a href="{{ ticket.attachment.url }}" class="btn btn-primary btn-sm attachment-btn" target="_blank">{% trans "View" %}</a>
+                            <a href="{{ ticket.attachment.url }}" class="btn btn-success btn-sm attachment-btn" download>{% trans "Download" %}</a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="signature-container">
+                            {% for signature in ticket.signatures.all %}
+                                <img src="{{ signature.image.url }}" alt="{{ signature.name }}" class="signature-img"/>
+                            {% empty %}
+                                N/A
+                            {% endfor %}
+                        </div>
+                    </td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'ticket_detail' ticket.pk %}" class="btn btn-info btn-sm">{% trans "View" %}</a>
+                        <a href="{% url 'ticket_update' ticket.pk %}" class="btn btn-secondary btn-sm">{% trans "Edit" %}</a>
+                        {% if user.is_staff or user.is_superuser %}
+                            <a href="{% url 'ticket_delete' ticket.pk %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+                            <a href="{% url 'ticket_add_note' ticket.pk %}" class="btn btn-sm" style="background-color: #da9516; color: white;">{% trans "Add Note" %}</a>
+                            <a href="{% url 'ticket_transfer' ticket.pk %}" class="btn btn-transfer btn-sm">{% trans "Transfer" %}</a>
+                            <a href="{% url 'ticket_update_status' ticket.pk %}" class="btn btn-update-status btn-sm">{% trans "Update Status" %}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="{% if user.is_staff or user.is_superuser %}14{% else %}9{% endif %}" class="text-center">{% trans "No tickets found." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

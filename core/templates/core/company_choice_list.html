@@ -1,0 +1,22 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Company Choices" %}</title>
+</head>
+<body>
+    <h1>{% trans "Company Choices" %}</h1>
+    <a href="{% url 'company_choice_create' %}">{% trans "Add New Company Choice" %}</a>
+    <ul>
+        {% for choice in choices %}
+            <li>
+                {{ choice.code }} → {{ choice.display_name }}
+                <a href="{% url 'company_choice_update' choice.pk %}">{% trans "Edit" %}</a>
+            </li>
+        {% empty %}
+            <li>{% trans "No company choices added yet." %}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!-- my_possession_list.html -->
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'export_my_possession_to_excel' %}" class="btn btn-secondary mr-2">{% trans "Export as Excel" %}</a>
+    <a href="{% url 'export_my_possession_to_pdf' %}" class="btn btn-secondary mr-2">{% trans "Export as PDF" %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>{% trans "My Possessions" %}</h2>
+    <form method="get" class="form-inline mb-3">
+        <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Search' %}" class="form-control mr-2">
+        <input type="date" name="date_from" value="{{ date_from }}" class="form-control mr-2">
+        <input type="date" name="date_to" value="{{ date_to }}" class="form-control mr-2">
+        <input type="text" name="item_type" value="{{ item_type }}" placeholder="{% trans 'Item Type' %}" class="form-control mr-2">
+        <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
+    </form>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>{% trans "No." %}</th>
+                <th>{% trans "Item Type" %}</th>
+                <th>{% trans "Quantity" %}</th>
+                <th>{% trans "Date Received" %}</th>
+                <th>{% trans "Date Returned" %}</th>
+                <th>{% trans "Attachment Paper" %}</th>
+                <th>{% trans "Attachment Item Condition" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Signature of Receiving" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.no }}</td>
+                <td>{{ item.item_type }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.date_received }}</td>
+                <td>{{ item.date_returned }}</td>
+                <td>{{ item.attachment_paper }}</td>
+                <td>{{ item.attachment_item_condition }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.signature_of_receiving }}</td>
+                <td>
+                    <a href="{% url 'my_possession_update' item.pk %}" class="btn btn-warning btn-sm">{% trans "Edit" %}</a>
+                    <a href="{% url 'my_possession_delete' item.pk %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'my_possession_create' %}" class="btn btn-success">{% trans "Add New Possession" %}</a>
+</div>
+
+<script>
+function filterTable(columnIndex) {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("filterInput" + columnIndex);
+    filter = input.value.toUpperCase();
+    table = document.querySelector(".table");
+    tr = table.getElementsByTagName("tr");
+    for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[columnIndex];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Start Work Permits Report" %}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            margin: 0;
+            padding: 15px;
+        }
+        h2 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 6px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h2>{% trans "Start Work Permits Report" %}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "Permit ID" %}</th>
+                <th>{% trans "Employee Name" %}</th>
+                <th>{% trans "Profession" %}</th>
+                <th>{% trans "Start Date" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Notes" %}</th>
+                <th>{% trans "Created At" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for permit in work_permits %}
+            <tr>
+                <td>{{ permit.id }}</td>
+                <td>{{ permit.employee.get_full_name }}</td>
+                <td>{{ permit.profession }}</td>
+                <td>{{ permit.start_date|date:"Y-m-d" }}</td>
+                <td>{{ permit.get_status_display }}</td>
+                <td>{{ permit.notes|default:"-" }}</td>
+                <td>{{ permit.created_at|date:"Y-m-d H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">{% trans "No work permits found." %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="font-size:8px; text-align:right; margin-top:20px;">
+        {% trans "Generated on" %}: {% now "Y-m-d H:i" %}
+    </div>
+</body>
+</html>

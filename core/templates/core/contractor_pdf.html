@@ -1,0 +1,53 @@
+{% extends 'core/base_pdf.html' %}
+{% load i18n role_filters %}
+
+{% block title %}IT Warehouse{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>Contractors</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Contractors</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contractor in contractors %}
+            <tr>
+                <td>{{ contractor.id }}</td>
+                <td>{{ contractor.name }}</td>
+                <td>{{ contractor.company }}</td>
+                <td>{{ contractor.email }}</td>
+                <td>{{ contractor.phone }}</td>
+                <td>{{ contractor.address }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

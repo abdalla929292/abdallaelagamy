@@ -1,0 +1,15 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}{% trans "Delete Role" %}{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>{% trans "Confirm Deletion" %}</h2>
+    <p>{% trans "Are you sure you want to delete this role?" %}</p>
+    <form method="post" action="{% url 'role_delete' role.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">{% trans "Confirm" %}</button>
+        <a href="{% url 'role_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+{% endblock %}

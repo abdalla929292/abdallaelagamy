@@ -1,0 +1,28 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+<h2>Sub-positions</h2>
+<div class="table-container">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Main Position</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sub_position in sub_positions %}
+            <tr>
+                <td>{{ sub_position.name }}</td>
+                <td>{{ sub_position.main_position.name }}</td>
+                <td>
+                    <a href="{% url 'sub_position_update' sub_position.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'sub_position_delete' sub_position.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

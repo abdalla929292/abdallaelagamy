@@ -1,0 +1,42 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block title %}{{ form.instance.pk|yesno:"Edit Contractor,Create Contractor" }}{% endblock %}
+{% block content %}
+<div class="table-container">
+    <h2>{{ form.instance.pk|yesno:"Edit Contractor,Create Contractor" }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                {% for field in form %}
+                <tr>
+                    <th>{{ field.label_tag }}</th>
+                    <td>{{ field }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+        <a href="{% url 'contractor_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const canvas = document.querySelector("canvas");
+        const signaturePad = new SignaturePad(canvas);
+
+        document.getElementById('clear').addEventListener('click', function() {
+            signaturePad.clear();
+        });
+
+        window.saveSignature = function() {
+            if (!signaturePad.isEmpty()) {
+                const dataURL = signaturePad.toDataURL();
+                document.getElementById('signature-input').value = dataURL;
+            }
+        }
+    });
+</script>
+{% endblock %}

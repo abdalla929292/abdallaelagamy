@@ -1,0 +1,46 @@
+{% extends 'core/base_form.html' %}
+{% load i18n %}
+
+{% block title %}
+    {{ form.instance.pk|yesno:"Edit Company Clearance,Create Company Clearance" }}
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>{{ form.instance.pk|yesno:"Edit Company Clearance,Create Company Clearance" }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                {% for field in form %}
+                <tr>
+                    <th>{{ field.label_tag }}</th>
+                    <td>
+                        {% if field.name == "last_day_of_work" %}
+                            <input type="date" class="form-control" name="{{ field.name }}" id="last_day_of_work" value="{{ field.value|default_if_none:'' }}">
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+        <a href="{% url 'company_clearance_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-focus on the last day of work field when the page loads
+        const lastDayOfWorkField = document.getElementById('last_day_of_work');
+        if (lastDayOfWorkField) {
+            lastDayOfWorkField.addEventListener('focus', function() {
+                this.showPicker();  // Opens the date picker automatically on focus
+            });
+        }
+    });
+</script>
+
+{% endblock %}

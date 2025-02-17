@@ -1,0 +1,90 @@
+{% extends 'core/base_form.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="table-container">
+    <h2 class="mb-3">{% trans "Employee Details" %}</h2>
+
+    <form method="post" enctype="multipart/form-data" id="employeeForm">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <!-- Employee Number - Auto Generated -->
+                <tr>
+                    <th><label for="id_employee_no">{% trans "Employee No." %}</label></th>
+                    <td>
+                        <input type="text" name="employee_no" id="id_employee_no" class="form-control" readonly
+                            value="{{ form.instance.employee_no }}">
+                    </td>
+                </tr>
+
+                <!-- Profession - Auto-fetched from CustomUser or Selectable -->
+                <tr>
+                    <th><label for="id_profession">{% trans "Profession" %}</label></th>
+                    <td>
+                        {% if request.user.roles.all|length > 0 and request.user.roles.all.0.name in "Admin, Manager, DCs & Secretary" %}
+                            {{ form.profession }}
+                        {% else %}
+                            <input type="text" name="profession" id="id_profession" class="form-control" readonly
+                                value="{{ form.instance.profession|default:request.user.profession|default:'Not Assigned' }}">
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% for field in form %}
+                    {% if field.name not in 'employee_no profession id_end_date duration' %}
+                        <tr>
+                            <th>{{ field.label_tag }}</th>
+                            <td>{{ field }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Duration - Ensuring it's only included once -->
+                {% if 'duration' in form.fields %}
+                <tr>
+                    <th><label for="id_duration">{% trans "Duration (Months)" %}</label></th>
+                    <td>
+                        {{ form.duration }}
+                    </td>
+                </tr>
+                {% endif %}
+
+                <!-- ID End Date - Auto Calculated -->
+                <tr>
+                    <th><label for="id_id_end_date">{% trans "ID End Date" %}</label></th>
+                    <td>
+                        <input type="date" name="id_end_date" id="id_id_end_date" class="form-control" readonly
+                            value="{{ form.instance.id_end_date }}">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+        <a href="{% url 'employee_details_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const renewDateInput = document.getElementById("id_id_renew_date");
+    const durationInput = document.getElementById("id_duration");
+    const endDateInput = document.getElementById("id_id_end_date");
+
+    function calculateEndDate() {
+        const renewDate = new Date(renewDateInput.value);
+        const duration = parseInt(durationInput.value, 10);
+
+        if (!isNaN(renewDate.getTime()) && !isNaN(duration)) {
+            const endDate = new Date(renewDate);
+            endDate.setMonth(endDate.getMonth() + duration);
+            endDateInput.value = endDate.toISOString().split("T")[0]; // Format YYYY-MM-DD
+        }
+    }
+
+    renewDateInput?.addEventListener("change", calculateEndDate);
+    durationInput?.addEventListener("change", calculateEndDate);
+});
+</script>
+
+{% endblock %}

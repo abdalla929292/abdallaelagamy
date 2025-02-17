@@ -1,0 +1,120 @@
+{% extends "core/base_form.html" %}
+{% load i18n role_filters %}
+
+{% block title %}
+    {{ form.instance.pk|yesno:"Edit Administrative Request,Create Administrative Request" }}
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>{{ form.instance.pk|yesno:"Edit Administrative Request,Create Administrative Request" }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                {% for field in form %}
+                    {# 1) Read-Only Fields: admin_request_nu, department, national_id, name #}
+                    {% if field.name in "admin_request_nu,department,national_id,name" %}
+                    <tr>
+                        <th>{{ field.label_tag }}</th>
+                        <td>
+                            <input type="text" id="id_{{ field.name }}" name="{{ field.name }}"
+                                value="{{ field.value|default_if_none:'' }}" class="form-control" readonly />
+                            {% for error in field.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    {# 2) Employee Electronic Signature Pad #}
+                    {% elif field.name == "signature" %}
+                    <tr>
+                        <th>{% trans "Electronic Signature (Employee)" %}</th>
+                        <td>
+                            {% if form.instance.signature and form.instance.signature.url %}
+                                <img src="{{ form.instance.signature.url }}" alt="Employee Signature"
+                                    class="signature-preview">
+                            {% else %}
+                                <div style="border: 1px solid #ccc; padding: 10px; display: inline-block;">
+                                    <canvas id="signaturePadEmployee" class="signature-canvas"></canvas>
+                                </div>
+                                <input type="hidden" name="signature_data" id="signatureEmployeeInput">
+                                <button type="button" class="btn btn-danger clear-signature"
+                                    data-target="signaturePadEmployee">{% trans "Clear" %}</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {# 3) Default Fields #}
+                    {% else %}
+                    <tr>
+                        <th>{{ field.label_tag }}</th>
+                        <td>
+                            {{ field }}
+                            {% for error in field.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Action Buttons -->
+        <button type="submit" class="btn btn-primary" onclick="saveSignature()">
+            {% trans "Save" %}
+        </button>
+        <a href="{% url 'administrative_request_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+
+<!-- Include Signature Pad -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Initialize Signature Pad for Employee
+    const employeeCanvas = document.getElementById("signaturePadEmployee");
+    const employeeInput = document.getElementById("signatureEmployeeInput");
+
+    if (employeeCanvas) {
+        const signaturePadEmployee = new SignaturePad(employeeCanvas);
+
+        // Clear signature
+        document.querySelector('[data-target="signaturePadEmployee"]').addEventListener("click", function () {
+            signaturePadEmployee.clear();
+            employeeInput.value = "";
+        });
+
+        // Update hidden input field when drawing
+        employeeCanvas.addEventListener("mouseup", function () {
+            employeeInput.value = signaturePadEmployee.toDataURL();
+        });
+
+        // Save function before form submission
+        window.saveSignature = function () {
+            if (!signaturePadEmployee.isEmpty()) {
+                employeeInput.value = signaturePadEmployee.toDataURL();
+            }
+        };
+    }
+});
+</script>
+
+<style>
+.signature-canvas {
+    border: 1px solid #000;
+    width: 100%;
+    height: 200px;
+}
+.signature-preview {
+    max-width: 150px;
+    max-height: 80px;
+    border: 1px solid #000;
+    margin-right: 8px;
+    display: block;
+}
+</style>
+
+{% endblock %}

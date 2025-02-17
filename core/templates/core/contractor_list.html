@@ -1,0 +1,60 @@
+<!-- contractor_details_list.html -->
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'export_contractor_to_excel' %}" class="btn btn-secondary mr-2">{% trans "Export as Excel" %}</a>
+    <a href="{% url 'export_contractor_to_pdf' %}" class="btn btn-secondary mr-2">{% trans "Export as PDF" %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>{% trans "Contractors" %}</h2>
+    <form method="get" class="form-inline mb-3">
+        <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Search' %}" class="form-control mr-2">
+        <input type="date" name="date_from" value="{{ date_from }}" class="form-control mr-2">
+        <input type="date" name="date_to" value="{{ date_to }}" class="form-control mr-2">
+        <input type="text" name="name" value="{{ name }}" placeholder="{% trans 'Name' %}" class="form-control mr-2">
+        <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
+    </form>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Gov Registration Number" %}</th>
+                <th>{% trans "Tax Number" %}</th>
+                <th>{% trans "Email" %}</th>
+                <th>{% trans "Phone Number" %}</th>
+                <th>{% trans "Address" %}</th>
+                <th>{% trans "Quantity of Contracts" %}</th>
+                <th>{% trans "Paid" %}</th>
+                <th>{% trans "Not Paid" %}</th>
+                <th>{% trans "Total" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contractor in contractors %}
+            <tr>
+                <td>{{ contractor.name }}</td>
+                <td>{{ contractor.gov_registration_number }}</td>
+                <td>{{ contractor.tax_number }}</td>
+                <td>{{ contractor.email }}</td>
+                <td>{{ contractor.phone_number }}</td>
+                <td>{{ contractor.address }}</td>
+                <td>{{ contractor.quantity_of_contracts }}</td>
+                <td>{{ contractor.paid }}</td>
+                <td>{{ contractor.not_paid }}</td>
+                <td>{{ contractor.total }}</td>
+                <td>
+                    <a href="{% url 'contractor_update' contractor.pk %}" class="btn btn-warning btn-sm">{% trans "Edit" %}</a>
+                    <a href="{% url 'contractor_delete' contractor.pk %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'contractor_create' %}" class="btn btn-success">{% trans "Add New Contractor" %}</a>
+</div>
+{% endblock %}

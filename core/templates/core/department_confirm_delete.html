@@ -1,0 +1,15 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user|has_role:"Manager" %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'department_list' %}">{% trans "Departments" %}</a></li>
+    {% endif %}
+{% endif %}
+<h2>Delete Department</h2>
+<p>Are you sure you want to delete the department "{{ department.name }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm</button>
+</form>
+{% endblock %}

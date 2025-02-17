@@ -1,0 +1,108 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block content %}
+<div class="table-container">
+    <h2 class="mb-3">{% trans "Company Clearance Records" %}</h2>
+
+    <div class="action-buttons mb-4 d-flex justify-content-between">
+        <div class="left-side">
+            <!-- "Create New Clearance" button with custom style -->
+            <a href="{% url 'company_clearance_create' %}" class="btn-custom">
+                {% trans "Create New Clearance" %}
+            </a>
+        </div>
+        <div class="right-side">
+            {% if user.is_staff or user.is_superuser %}
+                <a href="{% url 'export_company_clearance_pdf' %}" class="btn btn-secondary">
+                    {% trans "Export as PDF" %}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center align-middle">
+            <thead>
+                <tr>
+                    <th>{% trans "Employee Name" %}</th>
+                    <th>{% trans "Department" %}</th>
+                    <th>{% trans "Profession" %}</th>
+                    <th>{% trans "National ID/Iqama" %}</th>
+                    <th>{% trans "Last Work Day" %}</th>
+                    <th>{% trans "Reason" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Signatures" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for clearance in clearances %}
+                <tr>
+                    <td>{{ clearance.employee_name }}</td>
+                    <td>{{ clearance.department }}</td>
+                    <td>{{ clearance.profession }}</td>
+                    <td>{{ clearance.national_id_or_iqama_no }}</td>
+                    <td>{{ clearance.last_day_of_work|date:"d/m/Y" }}</td>
+                    <td>{{ clearance.get_leaving_reason_display }}</td>
+                    <td>
+                        {% if clearance.signatures.count >= 4 %}
+                            <span class="badge badge-success">{% trans "Approved" %}</span>
+                        {% else %}
+                            {{ clearance.get_status_display }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if clearance.signatures.all %}
+                            {% for sig in clearance.signatures.all %}
+                                <div class="signature-entry" style="margin-bottom:5px;">
+                                    <strong>{{ sig.manager.get_full_name }}</strong><br>
+                                    <img src="{{ sig.signature.url }}" alt="Signature" style="max-width: 100px; border: 1px solid #000;"><br>
+                                    <small>{{ sig.status }}</small>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <span>{% trans "No signatures" %}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if clearance.status == "Pending" %}
+                            <a href="{% url 'update_clearance_status' clearance.pk %}" class="btn btn-info btn-sm">
+                                {% trans "Sign" %}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center">{% trans "No clearance records found." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+/* Custom style to mimic the "Add New Request" button */
+.btn-custom {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.btn-custom:hover {
+    background-color: #0056b3;
+}
+
+/* Table and signature entry styling */
+.table { text-align: center; }
+.signature-entry { margin-bottom: 10px; }
+</style>
+{% endblock %}

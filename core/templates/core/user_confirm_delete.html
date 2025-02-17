@@ -1,0 +1,13 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+{% if user.is_authenticated %}
+<h2>{% trans "Delete User" %}</h2>
+<p>{% trans "Are you sure you want to delete the user" %} "{{ user.username }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">{% trans "Confirm" %}</button>
+    <a href="{% url 'user_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+</form>
+{% endif %}
+{% endblock %}

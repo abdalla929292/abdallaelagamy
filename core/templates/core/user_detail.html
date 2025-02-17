@@ -1,0 +1,28 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="table-container">
+    <h2>{{ user.username }}</h2>
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Email:</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>First Name:</th>
+                <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <th>Last Name:</th>
+                <td>{{ user.last_name }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="post">
+    {% csrf_token %}
+    </form>
+</div>
+{% endif %}
+{% endblock %}

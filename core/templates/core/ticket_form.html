@@ -1,0 +1,202 @@
+{% extends 'core/base.html' %}
+{% load i18n role_filters %}
+
+{% block content %}
+<div class="table-container">
+    <h2>{{ title }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th><label for="id_title">{% trans "Title" %}:</label></th>
+                    <td>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="text-danger">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="id_department">{% trans "Department" %}:</label></th>
+                    <td>
+                        {{ form.department }}
+                        {% if form.department.errors %}
+                            <div class="text-danger">{{ form.department.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="id_description">{% trans "Description" %}:</label></th>
+                    <td>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="text-danger">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="id_request_type">{% trans "Request Type" %}:</label></th>
+                    <td>
+                        {{ form.request_type }}
+                        {% if form.request_type.errors %}
+                            <div class="text-danger">{{ form.request_type.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="id_sub_request_type">{% trans "Sub Request Type" %}:</label></th>
+                    <td>
+                        {{ form.sub_request_type }}
+                        {% if form.sub_request_type.errors %}
+                            <div class="text-danger">{{ form.sub_request_type.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="id_assigned_to">{% trans "Assigned to" %}:</label></th>
+                    <td>
+                        {{ form.assigned_to }}
+                        {% if form.assigned_to.errors %}
+                            <div class="text-danger">{{ form.assigned_to.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="apply_for_self">{% trans "Apply for yourself" %}</label></th>
+                    <td>
+                        <input type="hidden" name="apply_for_self" value="off">
+                        <input type="checkbox" id="apply_for_self" name="apply_for_self" value="on">
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="apply_for_others">{% trans "Apply for someone else" %}</label></th>
+                    <td>
+                        <input type="hidden" name="apply_for_others" value="off">
+                        <input type="checkbox" id="apply_for_others" name="apply_for_others" value="on">
+                    </td>
+                </tr>
+                <tr id="applied-for-row">
+                    <th><label for="id_applied_for">{% trans "Applied For" %}:</label></th>
+                    <td>
+                        {{ form.applied_for }}
+                        {% if form.applied_for.errors %}
+                            <div class="text-danger">{{ form.applied_for.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="id_attachment">{% trans "Attachment" %}:</label></th>
+                    <td>
+                        {{ form.attachment }}
+                        {% if form.attachment.errors %}
+                            <div class="text-danger">{{ form.attachment.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="id_signature">{% trans "Signature" %}:</label></th>
+                    <td>
+                        <div class="signature-pad" id="signature-pad">
+                            <div class="signature-pad--body">
+                                <canvas></canvas>
+                            </div>
+                            <div class="signature-pad--footer">
+                                <button type="button" class="btn btn-secondary" id="clear">{% trans "Clear" %}</button>
+                                <input type="hidden" name="signature" id="signature-input">
+                            </div>
+                        </div>
+                        {% if form.signature.errors %}
+                            <div class="text-danger">{{ form.signature.errors }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary" onclick="saveSignature()">{% trans "Save" %}</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const applyForSelf = document.getElementById('apply_for_self');
+        const applyForOthers = document.getElementById('apply_for_others');
+        const appliedForRow = document.getElementById('applied-for-row');
+        const appliedForField = document.getElementById('id_applied_for');
+
+        function toggleAppliedFor() {
+            if (applyForSelf.checked) {
+                applyForOthers.checked = false;
+                appliedForRow.style.display = 'none';
+                appliedForField.disabled = true;
+                appliedForField.value = "";
+            } else if (applyForOthers.checked) {
+                applyForSelf.checked = false;
+                appliedForRow.style.display = 'table-row';
+                appliedForField.disabled = false;
+            } else {
+                appliedForRow.style.display = 'none';
+                appliedForField.disabled = true;
+                appliedForField.value = "";
+            }
+        }
+
+        applyForSelf.addEventListener('change', toggleAppliedFor);
+        applyForOthers.addEventListener('change', toggleAppliedFor);
+
+        // Run on page load
+        toggleAppliedFor();
+
+        // Department and Request Type handling
+        const departmentField = document.getElementById('id_department');
+        const requestTypeField = document.getElementById('id_request_type');
+        const subRequestTypeField = document.getElementById('id_sub_request_type');
+
+        departmentField.addEventListener('change', function() {
+            const departmentId = this.value;
+            fetch(`/request_types/${departmentId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    requestTypeField.innerHTML = '<option value="">{% trans "Select Request Type" %}</option>';
+                    data.forEach(request => {
+                        const option = document.createElement('option');
+                        option.value = request.id;
+                        option.textContent = request.name;
+                        requestTypeField.appendChild(option);
+                    });
+                });
+        });
+
+        requestTypeField.addEventListener('change', function() {
+            const requestTypeId = this.value;
+            fetch(`/sub_request_types/${requestTypeId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    subRequestTypeField.innerHTML = '<option value="">{% trans "Select Sub Request Type" %}</option>';
+                    data.forEach(subRequest => {
+                        const option = document.createElement('option');
+                        option.value = subRequest.id;
+                        option.textContent = subRequest.name;
+                        subRequestTypeField.appendChild(option);
+                    });
+                });
+        });
+
+        // Signature Pad initialization
+        const canvas = document.querySelector("canvas");
+        const signaturePad = new SignaturePad(canvas);
+
+        document.getElementById('clear').addEventListener('click', function() {
+            signaturePad.clear();
+        });
+
+        window.saveSignature = function() {
+            if (!signaturePad.isEmpty()) {
+                const dataURL = signaturePad.toDataURL();
+                document.getElementById('signature-input').value = dataURL;
+            }
+        }
+    });
+</script>
+{% endblock %}

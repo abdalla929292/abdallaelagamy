@@ -1,0 +1,60 @@
+{% load i18n role_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Technical Office Storage</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Technical Office Storage</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>File Type</th>
+                <th>File Name</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Date Applied</th>
+                <th>Date Receiving Apply</th>
+                <th>Code</th>
+                <th>Notes for Approval or Rejection</th>
+                <th>Attachment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.no }}</td>
+                <td>{{ item.file_type }}</td>
+                <td>{{ item.file_name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.location }}</td>
+                <td>{{ item.date_applied }}</td>
+                <td>{{ item.date_receiving_apply }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.notes_for_approval_or_rejection }}</td>
+                <td>{{ item.attachment }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

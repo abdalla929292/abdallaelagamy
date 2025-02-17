@@ -1,0 +1,109 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Company Clearance Report" %}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 9px;
+            margin: 0;
+            padding: 15px;
+        }
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto;
+            margin-bottom: 10px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 4px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h2>{% trans "Company Clearance Report" %}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "Employee Name" %}</th>
+                <th>{% trans "Profession" %}</th>
+                <th>{% trans "National ID/Iqama" %}</th>
+                <th>{% trans "Last Work Day" %}</th>
+                <th>{% trans "Reason" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Approved/Rejected By" %}</th>
+                <th>{% trans "Approval Note" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for clearance in clearances %}
+            <tr>
+                <td>{{ clearance.employee_name|default:"-" }}</td>
+                <td>{{ clearance.profession|default:"-" }}</td>
+                <td>{{ clearance.national_id_or_iqama_no|default:"-" }}</td>
+                <td>{{ clearance.last_day_of_work|date:"d/m/Y" }}</td>
+                <td>{{ clearance.get_leaving_reason_display|default:"-" }}</td>
+                <td>{{ clearance.get_status_display|default:"-" }}</td>
+                <td>
+                    {% if clearance.approved_by %}
+                        {{ clearance.approved_by.get_full_name }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>{{ clearance.notes|default:"-" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% for clearance in clearances %}
+        {% if clearance.signature_data %}
+            <h3>{% trans "Signatures for Clearance:" %} {{ clearance.employee_name }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>{% trans "Manager" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Date" %}</th>
+                        <th>{% trans "Approval Note" %}</th>
+                        <th>{% trans "Signature" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sig in clearance.signature_data %}
+                    <tr>
+                        <td>{{ sig.manager|default:"-" }}</td>
+                        <td>{{ sig.status|default:"-" }}</td>
+                        <td>{{ sig.date|date:"d/m/Y H:i" }}</td>
+                        <td>{{ sig.note|default:"-" }}</td>
+                        <td>
+                            {% if sig.data %}
+                                <img src="{{ sig.data }}" alt="{% trans "Signature" %}" style="max-width: 100px; max-height: 50px;">
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>

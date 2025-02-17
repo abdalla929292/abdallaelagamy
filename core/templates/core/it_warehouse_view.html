@@ -1,0 +1,88 @@
+{% extends 'core/base_form.html' %}
+{% load i18n %}  {# Load translation module to use {% trans %} #}
+
+{% block title %}{% trans "IT Warehouse Item Details" %}{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2 class="mb-3">{% trans "IT Warehouse Item Details" %}</h2>
+
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>{% trans "Item No." %}</th>
+                <td>{{ item.item_no }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Item Type" %}</th>
+                <td>{{ item.item_type }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Item Model Name" %}</th>
+                <td>{{ item.item_model_name }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Condition" %}</th>
+                <td>{{ item.condition }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Item With" %}</th>
+                <td>{{ item.item_with.username|default:"-" }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Given By" %}</th>
+                <td>{{ item.given_by.username|default:"-" }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Quantity" %}</th>
+                <td>{{ item.quantity }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Serial Number" %}</th>
+                <td>{{ item.serial_number|default:"-" }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Date Given" %}</th>
+                <td>{{ item.date_given|date:"Y-m-d H:i" }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Date Received" %}</th>
+                <td>{{ item.date_received|date:"Y-m-d H:i"|default:"-" }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Signature Holder" %}</th>
+                <td>
+                    {% if item.signature_holder %}
+                        <img src="{{ item.signature_holder.url }}" alt="Holder Signature" class="signature-img">
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans "Department Manager Signature" %}</th>
+                <td>
+                    {% if item.signature_department_manager %}
+                        <img src="{{ item.signature_department_manager.url }}" alt="Manager Signature" class="signature-img">
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'it_warehouse_list' %}" class="btn btn-secondary">{% trans "Back to List" %}</a>
+        <a href="{% url 'it_warehouse_update' item.pk %}" class="btn btn-warning">{% trans "Edit" %}</a>
+    </div>
+</div>
+
+<style>
+    .signature-img {
+        max-width: 150px;
+        max-height: 80px;
+        border: 1px solid #000;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends "core/base_form.html" %}
+{% load i18n role_filters %}
+
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end mb-3">
+    <a href="{% url 'export_admin_requests_to_excel' %}" class="btn btn-secondary mr-2 small-button-text">
+        <i class="fas fa-file-excel"></i> {% trans "Export as Excel" %}
+    </a>
+    <a href="{% url 'export_admin_requests_to_pdf' %}" class="btn btn-secondary small-button-text">
+        <i class="fas fa-file-pdf"></i> {% trans "Export as PDF" %}
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2 class="mb-3">{% trans "Administrative Requests" %}</h2>
+
+    <!-- Action Buttons: Left side "Add New Request", Right side "Export as PDF" -->
+    <div class="action-buttons mb-4 d-flex justify-content-between">
+        <!-- Left side: Add New Request button (styled similar to IT Requests) -->
+        <div class="left-side" style="width: 200px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid #007bff;">
+            <a href="{% url 'administrative_request_create' %}" 
+               class="btn btn-primary" 
+               style="white-space: normal; word-wrap: break-word; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                {% trans "Add New Request" %}
+            </a>
+        </div>
+        <!-- Right side: Export as PDF button (visible only for staff/superuser) -->
+        <div class="right-side">
+            {% if user.is_staff or user.is_superuser %}
+                <a href="{% url 'export_admin_requests_to_pdf' %}" class="btn btn-secondary small-button-text">
+                    <i class="fas fa-file-pdf"></i> {% trans "Export as PDF" %}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" class="form-inline mb-3">
+        <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Search' %}" class="form-control mr-2">
+        <input type="date" name="date_from" value="{{ date_from }}" class="form-control mr-2">
+        <input type="date" name="date_to" value="{{ date_to }}" class="form-control mr-2">
+        <input type="text" name="name" value="{{ name }}" placeholder="{% trans 'Name' %}" class="form-control mr-2">
+        <button type="submit" class="btn btn-outline-success">
+            <i class="fas fa-search"></i> {% trans "Search" %}
+        </button>
+    </form>
+
+    <!-- Data Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>{% trans "Request No." %}</th>
+                    <th>{% trans "Company" %}</th>
+                    <th>{% trans "Request Type" %}</th>
+                    <th>{% trans "National ID" %}</th>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Department" %}</th>
+                    <th>{% trans "Explanation of Request" %}</th>
+                    <th>{% trans "Notes" %}</th>
+                    <th>{% trans "Date" %}</th>
+                    <th>{% trans "Signature" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Manager Approval" %}</th>
+                    <th>{% trans "GM Approval" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.admin_request_nu }}</td>
+                    <td>{{ item.admin_request_company }}</td>
+                    <td>{{ item.admin_request_type }}</td>
+                    <td>{{ item.national_id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.department }}</td>
+                    <td>{{ item.explanation_of_request }}</td>
+                    <td>{{ item.notes }}</td>
+                    <td>{{ item.date|date:"Y-m-d H:i" }}</td>
+                    <td class="signature-cell">
+                        {% if item.signature %}
+                            <img src="{{ item.signature.url }}" alt="Signature" class="signature-preview">
+                        {% else %}
+                            <span class="text-muted">{% trans "No signature" %}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="badge badge-{{ item.status|lower }}">{{ item.status }}</span>
+                    </td>
+                    <td>
+                        {% if user.groups.all.0.name == "Manager" or user.is_superuser %}
+                            <select class="form-control approval-field manager-approval" data-id="{{ item.id }}">
+                                <option value="Open" {% if item.manager_approval_status == 'Open' %}selected{% endif %}>{% trans "Open" %}</option>
+                                <option value="Accepted" {% if item.manager_approval_status == 'Accepted' %}selected{% endif %}>{% trans "Accepted" %}</option>
+                                <option value="Rejected" {% if item.manager_approval_status == 'Rejected' %}selected{% endif %}>{% trans "Rejected" %}</option>
+                            </select>
+                        {% else %}
+                            <span class="badge badge-light">{{ item.manager_approval_status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.groups.all.0.name == "General Manager" or user.is_superuser %}
+                            <select class="form-control approval-field gm-approval" data-id="{{ item.id }}">
+                                <option value="Open" {% if item.gm_approval_status == 'Open' %}selected{% endif %}>{% trans "Open" %}</option>
+                                <option value="Accepted" {% if item.gm_approval_status == 'Accepted' %}selected{% endif %}>{% trans "Accepted" %}</option>
+                                <option value="Rejected" {% if item.gm_approval_status == 'Rejected' %}selected{% endif %}>{% trans "Rejected" %}</option>
+                            </select>
+                        {% else %}
+                            <span class="badge badge-light">{{ item.gm_approval_status }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="d-flex">
+                            <a href="{% url 'administrative_request_update' item.pk %}" class="btn btn-warning btn-sm btn-action">
+                                <i class="fas fa-edit"></i> {% trans "Edit" %}
+                            </a>
+                            <a href="{% url 'administrative_request_delete' item.pk %}" class="btn btn-danger btn-sm btn-action">
+                                <i class="fas fa-trash"></i> {% trans "Delete" %}
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="14" class="text-center">{% trans "No requests found." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+/* General button styling */
+.btn {
+    font-size: 14px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-action {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-sm {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+/* Badge styling */
+.badge {
+    font-size: 12px;
+    padding: 6px;
+    border-radius: 5px;
+    text-transform: capitalize;
+}
+.badge-pending { background-color: #ffc107; color: black; }
+.badge-in-progress { background-color: #17a2b8; }
+.badge-completed { background-color: #28a745; }
+.badge-rejected { background-color: #dc3545; }
+/* Signature preview */
+.signature-cell img {
+    max-width: 100px;
+    max-height: 50px;
+    border: 1px solid #ccc;
+    display: block;
+    margin: auto;
+}
+/* Table responsiveness */
+.table-responsive {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+.d-flex {
+    gap: 8px;
+}
+/* Export button small text styling */
+.small-button-text {
+    font-size: 8px !important;
+    padding: 0.25rem 0.5rem !important;
+}
+.fas {
+    font-size: 8px !important;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+</style>
+{% endblock %}

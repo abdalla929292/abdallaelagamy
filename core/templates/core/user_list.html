@@ -1,0 +1,104 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end">
+    <a href="{% url 'export_users_to_excel' %}" class="btn btn-secondary mr-2">
+        {% trans "Export as Excel" %}
+    </a>
+    <a href="{% url 'export_users_to_pdf' %}" class="btn btn-secondary mr-2">
+        {% trans "Export as PDF" %}
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="table-container">
+        <h2 class="mb-3">{% trans "Users" %}</h2>
+
+        <!-- Create New User Button -->
+        <div class="d-flex mb-4">
+            <div class="left-side">
+                <a href="{% url 'user_create' %}" class="btn-custom">
+                    {% trans "Create New User" %}
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans "Username" %}</th>
+                    <th>{% trans "Email" %}</th>
+                    <th>{% trans "First Name" %}</th>
+                    <th>{% trans "Last Name" %}</th>
+                    <th>{% trans "National ID" %}</th>
+                    <th>{% trans "Department" %}</th>
+                    <th>{% trans "Profession" %}</th> <!-- ✅ New Profession Column -->
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.national_id|default:"-" }}</td>
+                    <td>{{ user.department|default:"-" }}</td>
+                    <td>{{ user.profession|default:"-" }}</td> <!-- ✅ Display Profession -->
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="{% url 'user_update' user.pk %}" class="btn btn-warning">
+                                {% trans "Edit" %}
+                            </a>
+                            <a href="{% url 'user_delete' user.pk %}" class="btn btn-danger">
+                                {% trans "Delete" %}
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">{% trans "No users found." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>{% trans "You do not have permission to view this page." %}</p>
+{% endif %}
+
+<style>
+/* Container for the Create New User button */
+.left-side {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #007bff;
+}
+
+/* Custom button style for "Create New User" */
+.btn-custom {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
+    word-wrap: break-word;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+{% endblock %}

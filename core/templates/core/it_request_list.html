@@ -1,0 +1,178 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block content %}
+<div class="table-container">
+   <h2 class="mb-3">{% trans "IT Requests" %}</h2>
+   
+   <div class="action-buttons mb-4 d-flex justify-content-between">
+       <div class="left-side">
+           <a href="{% url 'it_request_create' %}" class="btn-custom">
+               {% trans "Add New Request" %}
+           </a>
+       </div>
+       <div class="right-side">
+           {% if user.is_staff or user.is_superuser %}
+               <a href="{% url 'export_it_requests_to_pdf' %}" class="btn btn-secondary">
+                   {% trans "Export as PDF" %}
+               </a>
+           {% endif %}
+       </div>
+   </div>
+
+   <form class="search-form form-inline mb-3" method="get" action="{% url 'it_request_list' %}">
+       <input class="form-control mr-2" type="search" name="q" placeholder="{% trans "Search Requests" %}" aria-label="Search" value="{{ request.GET.q }}">
+       <input class="form-control mr-2" type="date" name="date_from" placeholder="{% trans "Date From" %}" value="{{ request.GET.date_from }}">
+       <input class="form-control mr-2" type="date" name="date_to" placeholder="{% trans "Date To" %}" value="{{ request.GET.date_to }}">
+       <input class="form-control mr-2" type="text" name="title" placeholder="{% trans "Title" %}" value="{{ request.GET.title }}">
+       <button class="btn btn-outline-success" type="submit">
+           {% trans "Search" %}
+       </button>
+   </form>
+
+   <div class="table-responsive">
+       <table class="table table-bordered table-striped">
+           <thead>
+               <tr>
+                   <th>{% trans "Request No." %}</th>
+                   <th>{% trans "Title" %}</th>
+                   <th>{% trans "Description" %}</th>
+                   <th>{% trans "IT Request Type" %}</th>
+                   <th>{% trans "Name" %}</th>
+                   <th>{% trans "Date Applied" %}</th>
+                   <th>{% trans "Priority" %}</th>
+                   <th>{% trans "Notes" %}</th>
+                   <th class="text-center">{% trans "Status" %}</th>
+                   <th>{% trans "Actions" %}</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for item in items %}
+               <tr>
+                   <td>{{ item.request_no }}</td>
+                   <td>{{ item.title }}</td>
+                   <td>{{ item.description }}</td>
+                   <td>{{ item.it_request_type }}</td>
+                   <td>{{ item.name }}</td>
+                   <td>{{ item.date_applied }}</td>
+                   <td>{{ item.priority }}</td>
+                   <td>{{ item.notes }}</td>
+                   <td class="status-cell">
+                       {% if item.status == 'completed' %}
+                           <span class="btn btn-status btn-status-completed">{% trans "Completed" %}</span>
+                       {% elif item.status == 'rejected' %}
+                           <span class="btn btn-status btn-status-rejected">{% trans "Rejected" %}</span>
+                       {% elif item.status == 'canceled' %}
+                           <span class="btn btn-status btn-status-canceled">{% trans "Canceled" %}</span>
+                       {% else %}
+                           <span class="btn btn-status btn-status-pending">{% trans "Pending" %}</span>
+                       {% endif %}
+                   </td>
+                   <td class="text-nowrap">
+                       <div class="action-buttons-container">
+                           <a href="{% url 'it_request_update' item.pk %}" class="btn btn-warning btn-sm">
+                               {% trans "Edit" %}
+                           </a>
+                           <a href="{% url 'it_request_delete' item.pk %}" class="btn btn-danger btn-sm">
+                               {% trans "Delete" %}
+                           </a>
+                           {% if user.is_staff or user.is_superuser %}
+                           <a href="{% url 'it_request_update_status' item.pk %}" class="btn btn-primary btn-sm">
+                               {% trans "Update" %}
+                           </a>
+                           {% endif %}
+                       </div>
+                   </td>
+               </tr>
+               {% empty %}
+               <tr>
+                   <td colspan="10" class="text-center">{% trans "No requests found." %}</td>
+               </tr>
+               {% endfor %}
+           </tbody>
+       </table>
+   </div>
+</div>
+
+<style>
+.left-side {
+   width: 200px;
+   height: 50px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border: 1px solid #007bff;
+}
+
+.btn-custom {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   white-space: normal;
+   word-wrap: break-word;
+   background-color: #007bff;
+   color: #fff;
+   text-decoration: none;
+   border: none;
+   font-size: 16px;
+   font-weight: bold;
+   cursor: pointer;
+}
+
+.action-buttons .right-side {
+   display: flex;
+   gap: 8px;
+}
+
+.btn-secondary {
+   height: 35px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+/* Status display styles */
+.status-cell {
+   text-align: center;
+   vertical-align: middle;
+}
+
+.btn-status {
+   margin: 0 auto;
+   width: 80px;
+   height: 35px;
+   padding: 3px;
+   text-align: center;
+   font-size: 10px;
+   white-space: normal;
+   word-wrap: break-word;
+   border: none;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.btn-status-completed { background-color: #28a745; color: white; }
+.btn-status-rejected { background-color: #dc3545; color: white; }
+.btn-status-canceled { background-color: #6c757d; color: white; }
+.btn-status-pending { background-color: #ffc107; color: #212529; }
+
+/* Action buttons container */
+.action-buttons-container {
+   display: flex;
+   gap: 4px;
+   align-items: center;
+}
+
+.action-buttons-container .btn {
+   padding: 0.25rem 0.5rem;
+   font-size: 11px;
+   height: 24px;
+   line-height: 1;
+   display: flex;
+   align-items: center;
+}
+</style>
+{% endblock %}

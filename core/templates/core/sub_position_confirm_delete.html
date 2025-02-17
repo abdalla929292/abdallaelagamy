@@ -1,0 +1,18 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>{% trans "Are you sure you want to delete this sub position?" %}</p>
+        <select name="sub_position_id">
+            {% for sub_position in sub_positions %}
+            <option value="{{ sub_position.id }}">{{ sub_position.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+        <a href="{% url 'sub_position_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+</div>
+{% endblock %}

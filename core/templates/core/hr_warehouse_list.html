@@ -1,0 +1,235 @@
+{% extends 'core/base_form.html' %}
+{% load i18n role_filters %}
+
+{% block import_export_buttons %}
+<div class="d-flex justify-content-end mb-3">
+    <a href="{% url 'export_hr_warehouse_to_pdf' %}" class="btn btn-secondary small-button-text">
+        <i class="fas fa-file-pdf"></i> {% trans "Export as PDF" %}
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2 class="mb-3">{% trans "Cars & Equipment" %}</h2>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons mb-4 d-flex justify-content-between">
+        <div class="left-side">
+            <a href="{% url 'hr_warehouse_create' %}" class="btn-custom">
+                {% trans "Add New Item" %}
+            </a>
+        </div>
+        <div class="right-side">
+            {% if user.is_staff or user.is_superuser %}
+                <a href="{% url 'export_hr_warehouse_to_pdf' %}" class="btn btn-secondary small-button-text">
+                    {% trans "Export as PDF" %}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" class="search-form form-inline mb-3" action="{% url 'hr_warehouse_list' %}">
+        <input class="form-control mr-2 small-button-text" type="search" name="q" placeholder="{% trans "Search" %}" value="{{ request.GET.q }}">
+        <input class="form-control mr-2 small-button-text" type="date" name="date_from" placeholder="{% trans "Date From" %}" value="{{ request.GET.date_from }}">
+        <input class="form-control mr-2 small-button-text" type="date" name="date_to" placeholder="{% trans "Date To" %}" value="{{ request.GET.date_to }}">
+        <select class="form-control mr-2 small-button-text" name="item_type">
+            <option value="">{% trans "All Item Types" %}</option>
+            {% for type_choice in items.model.ITEM_TYPE_CHOICES %}
+                <option value="{{ type_choice.0 }}" {% if request.GET.item_type == type_choice.0 %}selected{% endif %}>
+                    {{ type_choice.1 }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-outline-success small-button-text">
+            {% trans "Search" %}
+        </button>
+    </form>
+
+    <!-- Table Content -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped small-text">
+            <thead>
+                <tr>
+                    <th>{% trans "Item No." %}</th>
+                    <th>{% trans "Item Type" %}</th>
+                    <th>{% trans "Plate Number" %}</th>
+                    <th>{% trans "Last Checkup Date" %}</th>
+                    <th>{% trans "Duration of Checkup" %}</th>
+                    <th>{% trans "End Checkup Date" %}</th>
+                    <th>{% trans "License Last Checkup" %}</th>
+                    <th>{% trans "Duration of License" %}</th>
+                    <th>{% trans "End License Date" %}</th>
+                    <th>{% trans "Insurance Date Renew" %}</th>
+                    <th>{% trans "Duration of Insurance" %}</th>
+                    <th>{% trans "End Insurance Date" %}</th>
+                    <th>{% trans "Current Driver" %}</th>
+                    <th>{% trans "Location" %}</th>
+                    <th>{% trans "Attachments" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.item_no }}</td>
+                    <td>{{ item.item_type }}</td>
+                    <td>{{ item.plate_number }}</td>
+                    <td>{{ item.last_checkup_date }}</td>
+                    <td>{{ item.duration_of_checkup }}</td>
+                    <td>{{ item.end_checkup_date }}</td>
+                    <td>{{ item.license_last_checkup }}</td>
+                    <td>{{ item.duration_of_license }}</td>
+                    <td>{{ item.end_license_date }}</td>
+                    <td>{{ item.insurance_date_renew }}</td>
+                    <td>{{ item.duration_of_insurance }}</td>
+                    <td>{{ item.end_insurance_date }}</td>
+                    <td>{{ item.current_driver }}</td>
+                    <td>{{ item.location }}</td>
+                    <td class="text-nowrap">
+                        <div class="d-flex flex-column align-items-center">
+                            {% if item.car_photo %}
+                                <a href="{{ item.car_photo.url }}" target="_blank" class="btn btn-info btn-sm mb-1 attachment-btn">
+                                    <i class="fas fa-car"></i> {% trans "Car Photo" %}
+                                </a>
+                            {% endif %}
+                            {% if item.license_attachment %}
+                                <a href="{{ item.license_attachment.url }}" target="_blank" class="btn btn-info btn-sm mb-1 attachment-btn">
+                                    <i class="fas fa-id-card"></i> {% trans "License" %}
+                                </a>
+                            {% endif %}
+                            {% if item.checkup_attachment %}
+                                <a href="{{ item.checkup_attachment.url }}" target="_blank" class="btn btn-info btn-sm mb-1 attachment-btn">
+                                    <i class="fas fa-clipboard-check"></i> {% trans "Checkup" %}
+                                </a>
+                            {% endif %}
+                            {% if item.insurance_attachment %}
+                                <a href="{{ item.insurance_attachment.url }}" target="_blank" class="btn btn-info btn-sm mb-1 attachment-btn">
+                                    <i class="fas fa-shield-alt"></i> {% trans "Insurance" %}
+                                </a>
+                            {% endif %}
+                            {% if item.driver_id_attachment %}
+                                <a href="{{ item.driver_id_attachment.url }}" target="_blank" class="btn btn-info btn-sm mb-1 attachment-btn">
+                                    <i class="fas fa-id-badge"></i> {% trans "Driver ID" %}
+                                </a>
+                            {% endif %}
+                            {% if item.driver_license_attachment %}
+                                <a href="{{ item.driver_license_attachment.url }}" target="_blank" class="btn btn-info btn-sm mb-1 attachment-btn">
+                                    <i class="fas fa-id-card-alt"></i> {% trans "Driver License" %}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="d-flex justify-content-center action-buttons-container">
+                            <a href="{% url 'hr_warehouse_update' item.pk %}" class="btn btn-warning btn-sm action-btn">
+                                <i class="fas fa-edit"></i> {% trans "Edit" %}
+                            </a>
+                            <a href="{% url 'hr_warehouse_delete' item.pk %}" class="btn btn-danger btn-sm action-btn">
+                                <i class="fas fa-trash"></i> {% trans "Delete" %}
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="16" class="text-center">{% trans "No items found." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+.small-text {
+    font-size: 8px;
+}
+.small-button-text {
+    font-size: 8px !important;
+    padding: 0.25rem 0.5rem !important;
+}
+.btn {
+    font-size: 14px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn i {
+    margin-right: 5px;
+}
+.btn-sm {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+.attachment-btn {
+    font-size: 6px !important;
+    padding: 4px 8px !important;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.action-buttons-container {
+    display: flex;
+    flex-direction: row !important;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 4px;
+}
+.action-btn {
+    font-size: 8px !important;
+    padding: 4px 8px !important;
+    margin: 0 2px;
+    white-space: nowrap;
+    min-width: 40px;
+}
+.table-responsive {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+.d-flex {
+    gap: 8px;
+}
+.left-side {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #007bff;
+}
+.btn-custom {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
+    word-wrap: break-word;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+}
+.btn-info:hover {
+    background-color: #138496;
+    color: white;
+}
+.text-nowrap {
+    white-space: nowrap;
+}
+</style>
+{% endblock %}

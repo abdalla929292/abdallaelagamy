@@ -1,0 +1,52 @@
+{% load i18n role_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Clearances</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Company Clearances</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employee Name</th>
+                <th>Department</th>
+                <th>Date of Clearance</th>
+                <th>Status</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for clearance in clearances %}
+            <tr>
+                <td>{{ clearance.id }}</td>
+                <td>{{ clearance.employee_name }}</td>
+                <td>{{ clearance.department }}</td>
+                <td>{{ clearance.date_of_clearance }}</td>
+                <td>{{ clearance.status }}</td>
+                <td>{{ clearance.remarks }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
